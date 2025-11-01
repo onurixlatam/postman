@@ -1,16 +1,18 @@
 {
 	"info": {
-		"_postman_id": "onurix-api-collection",
-		"name": "Onurix API",
-		"description": "Complete collection for interacting with the Onurix API - SMS, Calls, WhatsApp, URL Shortener, and more.\n\nDocumentation: https://docs.onurix.com/\n\nBefore using this collection:\n1. Create a Postman environment\n2. Add variables: `client` (your Client ID) and `key` (your API Key)\n3. Get your credentials from the Onurix panel under 'Seguridad API'",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "635155dd-2f14-4886-8540-f77f19c9d68f",
+		"name": "Onurix API - V1.0",
+		"description": "📅 **Fecha de creación:** 01/noviembre/2025\n\n📌 **Versión:** 0.1\n\n🔗 **Consulta la última versión aquí:** [Documentación de Onurix](https://docs.onurix.com/).\n\n---\n\nCon esta colección de métodos, podrás probar de manera fácil y rápida los distintos servicios que ofrece la plataforma de Onurix.com, incluyendo:\n\n✅ **Envío de notificaciones** mediante SMS\n\n✅ **Envío de notificaciones** mediante Llamadas\n\n✅ **Envío de notificaciones mediante WhatsApp**\n\n✅ **Gestión de cuenta**\n\n✅ **Gestión de grupos y contactos**\n\n✅ **Autenticación 2FA**\n\n✅ **Administración de URLs cortas**\n\n⚠ **Requisitos previos:**  \nPara utilizar esta colección, es necesario que:\n\n- La IP del servidor desde donde se ejecutará el script esté previamente autorizada.\n    \n- Se envíen en cada petición las credenciales obligatorias: **API Key** y **Client Code**.\n    \n\nEsta colección te permitirá integrar y probar los servicios de Onurix de manera eficiente y segura.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16893831",
+		"_collection_link": "https://onurix.postman.co/workspace/3745bb7d-b31b-4854-a359-99d96cd33bd7/collection/16893831-635155dd-2f14-4886-8540-f77f19c9d68f?action=share&source=collection_link&creator=16893831"
 	},
 	"item": [
 		{
-			"name": "SMS",
+			"name": "📩 Envío de SMS",
 			"item": [
 				{
-					"name": "Send SMS",
+					"name": "Enviar",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -28,28 +30,28 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID from Onurix panel"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key from Onurix panel"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "phone",
-									"value": "573001234567",
-									"description": "Destination phone number (can be comma-separated for multiple)"
+									"value": "{{phone}}",
+									"description": "Numero(s) de telefonos separados por comas. Ej “573150123456” ó “573150123456,573150012345”"
 								},
 								{
 									"key": "sms",
-									"value": "This is a test message from Onurix API",
-									"description": "The SMS message content"
+									"value": "Prueba desde Postman",
+									"description": "Mensaje de texto a enviar a los numeros de telefono"
 								},
 								{
 									"key": "groups",
-									"value": "",
-									"description": "Optional: Group IDs (comma-separated)",
+									"value": "{{groups}}",
+									"description": "Optional: \tID de grupos separados por comas. Ej \"1,2,3\"",
 									"disabled": true
 								}
 							]
@@ -69,12 +71,12 @@
 								"send"
 							]
 						},
-						"description": "Send an SMS message to one or multiple phone numbers."
+						"description": "## 📤 Send SMS\n\nPermite enviar un **mensaje de texto (SMS)** a uno o varios números de teléfono móvil.\n\nEste método es ideal para **notificaciones, alertas, recordatorios o mensajes promocionales**.  \nEl envío se realiza de forma inmediata y la entrega depende de la cobertura del operador del destinatario."
 					},
 					"response": []
 				},
 				{
-					"name": "Send SMS 2FA",
+					"name": "Enviar Código 2FA",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -92,23 +94,23 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID from Onurix panel"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key from Onurix panel"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "phone",
-									"value": "573001234567",
-									"description": "Destination phone number"
+									"value": "{{phone}}",
+									"description": "Numero(s) de telefonos separados por comas. Ej “573150123456” ó “573150123456,573150012345”"
 								},
 								{
 									"key": "app-name",
-									"value": "MyApp",
-									"description": "Name of your 2FA application created in Onurix"
+									"value": "{{2fa-app-name}}",
+									"description": "Nombre de la app que va a ser usada para generar el codigo"
 								}
 							]
 						},
@@ -128,18 +130,18 @@
 								"2fa"
 							]
 						},
-						"description": "Send an SMS with a 2FA verification code."
+						"description": "## 🔐 Send SMS 2FA\n\nPermite enviar un **mensaje SMS con un código de verificación (2FA)** a un número de teléfono móvil.  \nEste método es ideal para flujos de autenticación, validación de acceso, confirmación de identidad o verificación de transacciones.\n\nEl código sera generado y gestionado directamente por Onurix, vinculado al nombre de la aplicación configurada en tu cuenta."
 					},
 					"response": []
 				}
 			],
-			"description": "SMS messaging endpoints"
+			"description": "El servicio de **SMS de Onurix** te permite enviar mensajes de texto individuales o masivos a cualquier número de teléfono móvil, de forma rápida, segura y con entrega garantizada por los principales operadores móviles.\n\nEn esta sección encontrarás los métodos para:\n\n- Enviar un **SMS estándar** a uno o varios destinatarios.\n    \n- Enviar un **SMS 2FA (autenticación en dos pasos)** para validar usuarios o transacciones.\n    \n\n---\n\n## 🚀 Recomendaciones\n\n- Evita incluir acentos o caracteres especiales no compatibles con el estándar GSM.\n    \n- Si el mensaje excede los **160 caracteres**, **llega como un solo mensaje**, pero se **cobrarán créditos adicionales**: 1 crédito por cada bloque de 160 caracteres.\n    \n- Puedes usar este servicio tanto para mensajes **transaccionales** (códigos, alertas, confirmaciones) como **promocionales** (campañas de marketing).\n    \n- Para **envíos masivos**, se recomienda distribuir los mensajes en lotes pequeños para optimizar los tiempos de entrega y la capacidad de respuesta.\n    \n\n---\n\n## 📘 Endpoints disponibles\n\n1. **Send SMS** → Envío de mensajes de texto estándar.\n    \n2. **Send SMS 2FA** → Envío de mensajes automáticos con códigos de verificación."
 		},
 		{
-			"name": "Calls",
+			"name": "☎️ Llamadas de voz",
 			"item": [
 				{
-					"name": "Send Call",
+					"name": "Realizar Llamada",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -157,23 +159,18 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID from Onurix panel"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key from Onurix panel"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "phone",
-									"value": "573001234567",
-									"description": "Destination phone number"
-								},
-								{
-									"key": "message",
-									"value": "This is a voice message from Onurix",
-									"description": "Message to be spoken in the call"
+									"value": "{{phone}}",
+									"description": "Numero(s) de telefonos separados por comas. Ej “573150123456” ó “573150123456,573150012345”"
 								},
 								{
 									"key": "voice",
@@ -181,9 +178,36 @@
 									"description": "Voice to use (e.g., Mariana, Penelope)"
 								},
 								{
+									"key": "message",
+									"value": "Esta es una llamada hecha desde Postman",
+									"description": "Mensaje de texto (TTS) a enviar a los numeros de telefono"
+								},
+								{
+									"key": "retries",
+									"value": "",
+									"description": "Optional: Numero de intentos de la llamada, maximo 3",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "leave-voicemail",
+									"value": "",
+									"description": "Optional: Valor por defecto \"true\". Use \"false\" para no dejar mensaje en buzón de voz en caso de que la llamada no sea atendida",
+									"type": "text",
+									"disabled": true
+								},
+								{
 									"key": "audio-code",
 									"value": "",
-									"description": "Optional: ID of pre-uploaded audio file",
+									"description": "Optional: Id único que hace referencia a un audio cargado a través de la plataforma de Onurix, si envía este parámetro se usara el correspondiente audio en las llamadas generadas. No se permite el uso de este parámetro junto con el parámetro voice y message",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "groups",
+									"value": "",
+									"description": "ID de grupos seperados por comas. Ej \"1,2,3\". No se permite el uso de este parámetro junto con \"phone\".",
+									"type": "text",
 									"disabled": true
 								}
 							]
@@ -203,12 +227,12 @@
 								"send"
 							]
 						},
-						"description": "Generate a voice call with a message."
+						"description": "Permite realizar una **llamada de voz automática** a uno o varios destinatarios.  \nPuedes enviar un **mensaje de texto convertido a voz (TTS)** o reproducir un **audio previamente cargado** en la plataforma Onurix.  \n\nTambién es posible realizar envíos masivos seleccionando un **grupo de contactos** configurado en tu cuenta.\n"
 					},
 					"response": []
 				},
 				{
-					"name": "Send Call 2FA",
+					"name": "Enviar Código 2FA",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -226,23 +250,29 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID from Onurix panel"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key from Onurix panel"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "phone",
-									"value": "573001234567",
-									"description": "Destination phone number"
+									"value": "{{phone}}",
+									"description": "Numero(s) de telefonos separados por comas. Ej “573150123456” ó “573150123456,573150012345”"
 								},
 								{
 									"key": "app-name",
-									"value": "MyApp",
-									"description": "Name of your 2FA application created in Onurix"
+									"value": "{{2fa-app-name}}",
+									"description": "Nombre de la app que va a ser usada para generar el codigo"
+								},
+								{
+									"key": "retries",
+									"value": "",
+									"description": "Numero de intentos de la llamada, maximo 3",
+									"type": "text"
 								}
 							]
 						},
@@ -262,12 +292,12 @@
 								"2fa"
 							]
 						},
-						"description": "Generate a call with a 2FA verification code."
+						"description": "Permite enviar una **llamada de voz automática con un código de verificación (2FA)**.  \nEste servicio es ideal para procesos de **autenticación, verificación de identidad o confirmación de operaciones sensibles**.  \n\nEl sistema genera el código automáticamente y lo comunica al usuario mediante una llamada de voz.  \nLa voz se produce de forma automática (TTS) en **español neutro**."
 					},
 					"response": []
 				}
 			],
-			"description": "Voice call endpoints"
+			"description": "El servicio de **llamadas de voz de Onurix** te permite realizar comunicaciones automatizadas a través de voz, ya sea para **verificación 2FA**, **notificaciones importantes**, o **mensajes informativos personalizados** a tus usuarios o clientes.\n\nLas llamadas pueden reproducir un **mensaje de texto convertido a voz (TTS)** o un **audio previamente cargado en la plataforma**, ofreciendo flexibilidad para adaptarse a tus necesidades de comunicación.\n\nTambién puedes dirigir las llamadas a un **grupo de contactos precreado en el portal Onurix**, facilitando el envío masivo de notificaciones sin necesidad de gestionar los números manualmente.\n\n---\n\n## 🚀 Casos de uso\n\n- **Autenticación en dos pasos (2FA):** Envía un código de seguridad por llamada de voz.\n    \n- **Alertas y recordatorios:** Informa sobre citas, vencimientos, pagos o eventos importantes.\n    \n- **Mensajes informativos o masivos:** Envía notificaciones automatizadas a grupos o listas de contactos.\n    \n\n---\n\n## 📘 Endpoints disponibles\n\n1. **Send Call** → Envía una llamada de voz con un mensaje predefinido o código.\n    \n2. **Send Call 2FA** → Envía una llamada de voz con un código 2FA para verificación.\n    \n\n---\n\n## ⚙️ Recomendaciones\n\n- Los números deben estar en formato internacional **E.164**, por ejemplo: `573001234567`.\n    \n- Si seleccionas un **grupo de contactos**, el sistema realizará llamadas a todos los miembros del grupo.\n    \n- Las llamadas se realizan de forma automática y el sistema intentará de ser indicado **entregar hasta 3 veces** en caso de no respuesta.\n    \n- Los mensajes TTS (texto a voz) se generan en **español neutro**. Si necesitas un idioma o voz diferente, contacta con soporte Onurix."
 		},
 		{
 			"name": "WhatsApp",
@@ -1292,16 +1322,42 @@
 			"description": "URL shortening and tracking endpoints"
 		}
 	],
-	"variable": [
+	"event": [
 		{
-			"key": "client",
-			"value": "YOUR_CLIENT_ID",
-			"type": "string"
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
 		},
 		{
-			"key": "key",
-			"value": "YOUR_API_KEY",
-			"type": "string"
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "phone",
+			"value": ""
+		},
+		{
+			"key": "groups",
+			"value": ""
+		},
+		{
+			"key": "2fa-app-name",
+			"value": ""
 		}
 	]
 }
