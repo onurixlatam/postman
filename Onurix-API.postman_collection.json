@@ -1,0 +1,1307 @@
+{
+	"info": {
+		"_postman_id": "onurix-api-collection",
+		"name": "Onurix API",
+		"description": "Complete collection for interacting with the Onurix API - SMS, Calls, WhatsApp, URL Shortener, and more.\n\nDocumentation: https://docs.onurix.com/\n\nBefore using this collection:\n1. Create a Postman environment\n2. Add variables: `client` (your Client ID) and `key` (your API Key)\n3. Get your credentials from the Onurix panel under 'Seguridad API'",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SMS",
+			"item": [
+				{
+					"name": "Send SMS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID from Onurix panel"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key from Onurix panel"
+								},
+								{
+									"key": "phone",
+									"value": "573001234567",
+									"description": "Destination phone number (can be comma-separated for multiple)"
+								},
+								{
+									"key": "sms",
+									"value": "This is a test message from Onurix API",
+									"description": "The SMS message content"
+								},
+								{
+									"key": "groups",
+									"value": "",
+									"description": "Optional: Group IDs (comma-separated)",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/sms/send",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sms",
+								"send"
+							]
+						},
+						"description": "Send an SMS message to one or multiple phone numbers."
+					},
+					"response": []
+				},
+				{
+					"name": "Send SMS 2FA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID from Onurix panel"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key from Onurix panel"
+								},
+								{
+									"key": "phone",
+									"value": "573001234567",
+									"description": "Destination phone number"
+								},
+								{
+									"key": "app-name",
+									"value": "MyApp",
+									"description": "Name of your 2FA application created in Onurix"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/sms/send/2fa",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"sms",
+								"send",
+								"2fa"
+							]
+						},
+						"description": "Send an SMS with a 2FA verification code."
+					},
+					"response": []
+				}
+			],
+			"description": "SMS messaging endpoints"
+		},
+		{
+			"name": "Calls",
+			"item": [
+				{
+					"name": "Send Call",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID from Onurix panel"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key from Onurix panel"
+								},
+								{
+									"key": "phone",
+									"value": "573001234567",
+									"description": "Destination phone number"
+								},
+								{
+									"key": "message",
+									"value": "This is a voice message from Onurix",
+									"description": "Message to be spoken in the call"
+								},
+								{
+									"key": "voice",
+									"value": "Mariana",
+									"description": "Voice to use (e.g., Mariana, Penelope)"
+								},
+								{
+									"key": "audio-code",
+									"value": "",
+									"description": "Optional: ID of pre-uploaded audio file",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/call/send",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"call",
+								"send"
+							]
+						},
+						"description": "Generate a voice call with a message."
+					},
+					"response": []
+				},
+				{
+					"name": "Send Call 2FA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID from Onurix panel"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key from Onurix panel"
+								},
+								{
+									"key": "phone",
+									"value": "573001234567",
+									"description": "Destination phone number"
+								},
+								{
+									"key": "app-name",
+									"value": "MyApp",
+									"description": "Name of your 2FA application created in Onurix"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/call/send/2fa",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"call",
+								"send",
+								"2fa"
+							]
+						},
+						"description": "Generate a call with a 2FA verification code."
+					},
+					"response": []
+				}
+			],
+			"description": "Voice call endpoints"
+		},
+		{
+			"name": "WhatsApp",
+			"item": [
+				{
+					"name": "Send WhatsApp with Template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phones\": \"573001234567\",\n    \"header\": {\n        \"1\": {\n            \"type\": \"image\",\n            \"value\": {\n                \"link\": \"https://example.com/image.jpg\"\n            }\n        }\n    },\n    \"body\": {\n        \"1\": {\n            \"type\": \"text\",\n            \"value\": \"John Doe\"\n        },\n        \"2\": {\n            \"type\": \"text\",\n            \"value\": \"12345\"\n        }\n    },\n    \"button\": {}\n}"
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{key}}&client={{client}}&templateId=YOUR_TEMPLATE_ID",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"whatsapp",
+								"send"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "templateId",
+									"value": "YOUR_TEMPLATE_ID",
+									"description": "ID of your approved WhatsApp template"
+								}
+							]
+						},
+						"description": "Send a WhatsApp message using an approved template from Meta."
+					},
+					"response": []
+				},
+				{
+					"name": "Send WhatsApp 2FA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phones\": \"573001234567\",\n    \"header\": {\n        \"1\": {\n            \"type\": \"text\",\n            \"value\": \"Verification Code\"\n        }\n    },\n    \"body\": {\n        \"1\": {\n            \"type\": \"text\",\n            \"value\": \"\"\n        }\n    },\n    \"button\": {}\n}"
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{key}}&client={{client}}&templateId=YOUR_2FA_TEMPLATE_ID",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"whatsapp",
+								"send"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "templateId",
+									"value": "YOUR_2FA_TEMPLATE_ID",
+									"description": "ID of your 2FA template"
+								}
+							]
+						},
+						"description": "Send a WhatsApp message with a 2FA verification code."
+					},
+					"response": []
+				},
+				{
+					"name": "Send WhatsApp Without Template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"from_phone_meta_id\": \"YOUR_WHATSAPP_PHONE_ID\",\n    \"phone\": \"573001234567\",\n    \"message\": {\n        \"type\": \"text\",\n        \"text\": {\n            \"body\": \"Hello, this is a test message from Onurix API\"\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send/without-template?key={{key}}&client={{client}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"whatsapp",
+								"send",
+								"without-template"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								}
+							]
+						},
+						"description": "Send a WhatsApp message without using a template."
+					},
+					"response": []
+				}
+			],
+			"description": "WhatsApp messaging endpoints"
+		},
+		{
+			"name": "General",
+			"item": [
+				{
+					"name": "Get Balance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/balance?client={{client}}&key={{key}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"balance"
+							],
+							"query": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								}
+							]
+						},
+						"description": "Check your account credit balance."
+					},
+					"response": []
+				},
+				{
+					"name": "Security - Block Number",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "phone",
+									"value": "573001234567",
+									"description": "Phone number to block"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/security/block",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"security",
+								"block"
+							]
+						},
+						"description": "Block a phone number to prevent receiving communications."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify 2FA Code",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "phone",
+									"value": "573001234567",
+									"description": "Phone number"
+								},
+								{
+									"key": "code",
+									"value": "123456",
+									"description": "2FA code to verify"
+								},
+								{
+									"key": "app-name",
+									"value": "MyApp",
+									"description": "Name of your 2FA application"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/verify/2fa",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"verify",
+								"2fa"
+							]
+						},
+						"description": "Verify a 2FA code sent to a phone number."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Message Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/verify/message?client={{client}}&key={{key}}&id=MESSAGE_ID",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"verify",
+								"message"
+							],
+							"query": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "id",
+									"value": "MESSAGE_ID",
+									"description": "ID of the SMS or Call to verify"
+								}
+							]
+						},
+						"description": "Check the status of a sent SMS or call."
+					},
+					"response": []
+				}
+			],
+			"description": "General API endpoints for account management"
+		},
+		{
+			"name": "Groups and Contacts",
+			"item": [
+				{
+					"name": "Create Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "name",
+									"value": "My Group",
+									"description": "Name for the new group"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/group/create",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"group",
+								"create"
+							]
+						},
+						"description": "Create a new contact group."
+					},
+					"response": []
+				},
+				{
+					"name": "List Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/group/list?client={{client}}&key={{key}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"group",
+								"list"
+							],
+							"query": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								}
+							]
+						},
+						"description": "List all contact groups in your account."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "group-id",
+									"value": "123",
+									"description": "ID of the group to update"
+								},
+								{
+									"key": "name",
+									"value": "Updated Group Name",
+									"description": "New name for the group"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/group/update",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"group",
+								"update"
+							]
+						},
+						"description": "Update a group's name."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "group-id",
+									"value": "123",
+									"description": "ID of the group to delete"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/group/delete",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"group",
+								"delete"
+							]
+						},
+						"description": "Delete a contact group."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "name",
+									"value": "John",
+									"description": "Contact first name"
+								},
+								{
+									"key": "lastname",
+									"value": "Doe",
+									"description": "Contact last name"
+								},
+								{
+									"key": "phone",
+									"value": "573001234567",
+									"description": "Contact phone number"
+								},
+								{
+									"key": "email",
+									"value": "john.doe@example.com",
+									"description": "Contact email"
+								},
+								{
+									"key": "groups",
+									"value": "1,2,3",
+									"description": "Optional: Group IDs (comma-separated)",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/contact/create",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contact",
+								"create"
+							]
+						},
+						"description": "Create a new contact."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "id",
+									"value": "12345",
+									"description": "Contact ID to update"
+								},
+								{
+									"key": "name",
+									"value": "John",
+									"description": "Updated first name"
+								},
+								{
+									"key": "lastname",
+									"value": "Smith",
+									"description": "Updated last name"
+								},
+								{
+									"key": "phone",
+									"value": "573001234567",
+									"description": "Updated phone number"
+								},
+								{
+									"key": "email",
+									"value": "john.smith@example.com",
+									"description": "Updated email"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/contact/update",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contact",
+								"update"
+							]
+						},
+						"description": "Update an existing contact's information."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "id",
+									"value": "12345",
+									"description": "Contact ID to delete"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/contact/delete",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contact",
+								"delete"
+							]
+						},
+						"description": "Delete a contact."
+					},
+					"response": []
+				},
+				{
+					"name": "List Contacts in Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/contact/group/list?client={{client}}&key={{key}}&group-id=123",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contact",
+								"group",
+								"list"
+							],
+							"query": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "group-id",
+									"value": "123",
+									"description": "Group ID to list contacts from"
+								}
+							]
+						},
+						"description": "List all contacts in a specific group."
+					},
+					"response": []
+				},
+				{
+					"name": "Associate Contact to Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "id",
+									"value": "12345",
+									"description": "Contact ID"
+								},
+								{
+									"key": "group-id",
+									"value": "123",
+									"description": "Group ID"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/contact/group/associate",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contact",
+								"group",
+								"associate"
+							]
+						},
+						"description": "Associate a contact with a group."
+					},
+					"response": []
+				},
+				{
+					"name": "Dissociate Contact from Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "id",
+									"value": "12345",
+									"description": "Contact ID"
+								},
+								{
+									"key": "group-id",
+									"value": "123",
+									"description": "Group ID"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/contact/group/dissociate",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contact",
+								"group",
+								"dissociate"
+							]
+						},
+						"description": "Remove a contact from a group."
+					},
+					"response": []
+				}
+			],
+			"description": "Contact and group management endpoints"
+		},
+		{
+			"name": "URL Shortener",
+			"item": [
+				{
+					"name": "Create Short URL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "url-long",
+									"value": "https://example.com/very/long/url/that/needs/shortening",
+									"description": "The original URL to shorten"
+								},
+								{
+									"key": "alias",
+									"value": "",
+									"description": "Optional: Custom alias for the short URL",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/url/shortener",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"url",
+								"shortener"
+							]
+						},
+						"description": "Create a shortened URL."
+					},
+					"response": []
+				},
+				{
+					"name": "Get URL Statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/url/statistics?client={{client}}&key={{key}}&url=SHORT_URL_CODE",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"url",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "client",
+									"value": "{{client}}",
+									"description": "Your Client ID"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}",
+									"description": "Your API Key"
+								},
+								{
+									"key": "url",
+									"value": "SHORT_URL_CODE",
+									"description": "The short URL code or alias"
+								}
+							]
+						},
+						"description": "Get statistics for a shortened URL."
+					},
+					"response": []
+				}
+			],
+			"description": "URL shortening and tracking endpoints"
+		}
+	],
+	"variable": [
+		{
+			"key": "client",
+			"value": "YOUR_CLIENT_ID",
+			"type": "string"
+		},
+		{
+			"key": "key",
+			"value": "YOUR_API_KEY",
+			"type": "string"
+		}
+	]
+}
