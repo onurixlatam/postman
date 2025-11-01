@@ -1,0 +1,22 @@
+# Postman exports
+*.postman_environment_backup.json
+newman/
+
+# Environment files with credentials
+*-environment-*.json
+!Onurix-API.postman_environment.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
