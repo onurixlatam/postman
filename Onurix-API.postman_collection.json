@@ -300,24 +300,24 @@
 			"description": "El servicio de **llamadas de voz de Onurix** te permite realizar comunicaciones automatizadas a través de voz, ya sea para **verificación 2FA**, **notificaciones importantes**, o **mensajes informativos personalizados** a tus usuarios o clientes.\n\nLas llamadas pueden reproducir un **mensaje de texto convertido a voz (TTS)** o un **audio previamente cargado en la plataforma**, ofreciendo flexibilidad para adaptarse a tus necesidades de comunicación.\n\nTambién puedes dirigir las llamadas a un **grupo de contactos precreado en el portal Onurix**, facilitando el envío masivo de notificaciones sin necesidad de gestionar los números manualmente.\n\n---\n\n## 🚀 Casos de uso\n\n- **Autenticación en dos pasos (2FA):** Envía un código de seguridad por llamada de voz.\n    \n- **Alertas y recordatorios:** Informa sobre citas, vencimientos, pagos o eventos importantes.\n    \n- **Mensajes informativos o masivos:** Envía notificaciones automatizadas a grupos o listas de contactos.\n    \n\n---\n\n## 📘 Endpoints disponibles\n\n1. **Send Call** → Envía una llamada de voz con un mensaje predefinido o código.\n    \n2. **Send Call 2FA** → Envía una llamada de voz con un código 2FA para verificación.\n    \n\n---\n\n## ⚙️ Recomendaciones\n\n- Los números deben estar en formato internacional **E.164**, por ejemplo: `573001234567`.\n    \n- Si seleccionas un **grupo de contactos**, el sistema realizará llamadas a todos los miembros del grupo.\n    \n- Las llamadas se realizan de forma automática y el sistema intentará de ser indicado **entregar hasta 3 veces** en caso de no respuesta.\n    \n- Los mensajes TTS (texto a voz) se generan en **español neutro**. Si necesitas un idioma o voz diferente, contacta con soporte Onurix."
 		},
 		{
-			"name": "WhatsApp",
+			"name": "💬 WhatsApp – Envío de mensajes",
 			"item": [
 				{
-					"name": "Send WhatsApp with Template",
+					"name": "Enviar Documento",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phones\": \"573001234567\",\n    \"header\": {\n        \"1\": {\n            \"type\": \"image\",\n            \"value\": {\n                \"link\": \"https://example.com/image.jpg\"\n            }\n        }\n    },\n    \"body\": {\n        \"1\": {\n            \"type\": \"text\",\n            \"value\": \"John Doe\"\n        },\n        \"2\": {\n            \"type\": \"text\",\n            \"value\": \"12345\"\n        }\n    },\n    \"button\": {}\n}"
+							"raw": "{    \r\n    // ⚠️ IMPORTANTE: Solo se puede enviar a teléfonos o a grupos, pero no a ambos al mismo tiempo.\r\n\r\n    // Lista de números de teléfono separados por coma.\r\n    // Deben estar en formato nacional o internacional con indicativo (ej. 57 para Colombia).\r\n    \"phones\": \"573201234567,311123456789\",\r\n\r\n    // Identificador de uno o más grupos registrados en Onurix (comentado si se usan \"phones\").\r\n    // \"groups\": \"1,5\",\r\n\r\n    // Sección HEADER de la plantilla de WhatsApp.\r\n    // Aquí puedes enviar archivos como documentos, imágenes o texto, según lo definido en la plantilla.\r\n    \"header\": {\r\n        \"1\": {\r\n            \"type\": \"document\", // Tipo de variable: \"text\", \"image\", \"video\", \"document\"\r\n            \"value\": {\r\n                \"link\": \"https://ejemplo.com/documento.pdf\", // URL pública del documento\r\n                // \"meta_media_id\": \"MEDIA_ID_OPTIONAL\", // Opcional: ID del recurso multimedia cargado en Meta\r\n                \"filename\": \"nombre-del-archivo.pdf\" // Nombre que verá el usuario al recibirlo\r\n            }\r\n        }\r\n    },\r\n\r\n    // Sección BODY de la plantilla.\r\n    // Estas variables serán insertadas en el cuerpo del mensaje.\r\n    \"body\": {\r\n        \"1\": {\r\n            \"type\": \"text\",\r\n            \"value\": \"Nombre del usuario\"\r\n        },\r\n        \"2\": {\r\n            \"type\": \"text\",\r\n            \"value\": \"Mensaje personalizado u otra información\"\r\n        }\r\n    },\r\n\r\n    // Sección BUTTON de la plantilla.\r\n    // Aquí puedes configurar botones si la plantilla los admite.\r\n    \"button\": {\r\n        // \"1\": {\r\n        //     \"type\": \"text\",\r\n        //     \"value\": \"Texto del botón\"\r\n        // }\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{key}}&client={{client}}&templateId=YOUR_TEMPLATE_ID",
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -333,41 +333,41 @@
 							"query": [
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
-									"key": "templateId",
-									"value": "YOUR_TEMPLATE_ID",
-									"description": "ID of your approved WhatsApp template"
+									"key": "template",
+									"value": "{{template-id}}",
+									"description": "Identificador de la plantilla suministrado por META, que se usara para crear el mensaje."
 								}
 							]
 						},
-						"description": "Send a WhatsApp message using an approved template from Meta."
+						"description": "Esta petición permite enviar documentos a través de notificaciones de WhatsApp, mediante una **plantilla previamente aprobada en Meta**, utilizando la plataforma de **Onurix**.\n\nPuedes personalizar el contenido del mensaje a través de las secciones `header`, `body` y `button`, de acuerdo con las variables definidas en la plantilla. También puedes elegir si deseas enviar el mensaje a uno o varios números telefónicos o a un grupo previamente creado en Onurix (pero **no ambos al mismo tiempo**).\n\n#### 🔧 Parámetros importantes:\n\n- `phones`: Lista de números separados por coma. Deben incluir el indicativo del país si se requiere.\n    \n- `groups`: Identificador(es) de grupo(s) creado(s) en Onurix (alternativo a `phones`).\n    \n- `header`, `body`, `button`: Secciones que corresponden a las variables de la plantilla de WhatsApp en Meta.\n    \n- `clientId`:Identificador único del cliente que realiza la solicitud.\n    \n- `keyId`:Clave de acceso que valida la autenticidad de la solicitud.\n    \n- `template`: El nombre o ID de la plantilla que se utilizará para el mensaje."
 					},
 					"response": []
 				},
 				{
-					"name": "Send WhatsApp 2FA",
+					"name": "Enviar Imagen",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phones\": \"573001234567\",\n    \"header\": {\n        \"1\": {\n            \"type\": \"text\",\n            \"value\": \"Verification Code\"\n        }\n    },\n    \"body\": {\n        \"1\": {\n            \"type\": \"text\",\n            \"value\": \"\"\n        }\n    },\n    \"button\": {}\n}"
+							"raw": "{\r\n    // ⚠️ IMPORTANTE: Solo puedes enviar el mensaje a teléfonos o a grupos, pero no a ambos al mismo tiempo.\r\n\r\n    // Lista de números de teléfono separados por coma.\r\n    // Los números deben estar en formato nacional o internacional (ej. 57 para Colombia).\r\n    \"phones\": \"573000000000\",\r\n\r\n    // Identificadores de uno o más grupos registrados en Onurix.\r\n    // Comentar si se utiliza \"phones\".\r\n    // \"groups\": \"10,25\",\r\n\r\n    // Sección HEADER de la plantilla de WhatsApp.\r\n    // Aquí se envía una imagen como parte del encabezado del mensaje.\r\n    \"header\": {\r\n        \"1\": {\r\n            \"type\": \"image\", // Tipo de variable: puede ser \"text\", \"image\", \"video\", \"document\", \"location\"\r\n            \"value\": {\r\n                \"link\": \"https://ejemplo.com/logo.jpg\", // URL pública de la imagen\r\n                // \"meta_media_id\": \"MEDIA_ID_OPTIONAL\" // Opcional: ID del recurso multimedia cargado en Meta\r\n            }\r\n        }\r\n    },\r\n\r\n    // Sección BODY de la plantilla.\r\n    // Aquí se insertan los textos personalizados del cuerpo del mensaje.\r\n    \"body\": {\r\n        \"1\": {\r\n            \"type\": \"text\",\r\n            \"value\": \"Nombre del destinatario\"\r\n        },\r\n        \"2\": {\r\n            \"type\": \"text\",\r\n            \"value\": \"Contenido personalizado o nombre de empresa\"\r\n        }\r\n    },\r\n\r\n    // Sección BUTTON de la plantilla.\r\n    // Definir aquí si la plantilla contiene botones interactivos.\r\n    \"button\": {\r\n        // \"1\": {\r\n        //     \"type\": \"text\",\r\n        //     \"value\": \"Texto del botón\"\r\n        // }\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{key}}&client={{client}}&templateId=YOUR_2FA_TEMPLATE_ID",
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -383,41 +383,41 @@
 							"query": [
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
-									"key": "templateId",
-									"value": "YOUR_2FA_TEMPLATE_ID",
-									"description": "ID of your 2FA template"
+									"key": "template",
+									"value": "{{template-id}}",
+									"description": "Nombre de la plantilla que se usara para crear el mensaje"
 								}
 							]
 						},
-						"description": "Send a WhatsApp message with a 2FA verification code."
+						"description": "Esta petición permite enviar imagenes a través de notificaciones de WhatsApp, mediante una **plantilla previamente aprobada en Meta**, utilizando la plataforma de **Onurix**.\n\nPuedes personalizar el contenido del mensaje a través de las secciones `header`, `body` y `button`, de acuerdo con las variables definidas en la plantilla. También puedes elegir si deseas enviar el mensaje a uno o varios números telefónicos o a un grupo previamente creado en Onurix (pero **no ambos al mismo tiempo**).\n\n#### 🔧 Parámetros importantes:\n\n- `phones`: Lista de números separados por coma. Deben incluir el indicativo del país si se requiere.\n    \n- `groups`: Identificador(es) de grupo(s) creado(s) en Onurix (alternativo a `phones`).\n    \n- `header`, `body`, `button`: Secciones que corresponden a las variables de la plantilla de WhatsApp en Meta.\n    \n- `clientId`:Identificador único del cliente que realiza la solicitud.\n    \n- `keyId`:Clave de acceso que valida la autenticidad de la solicitud.\n    \n- `template`: El nombre o ID de la plantilla que se utilizará para el mensaje."
 					},
 					"response": []
 				},
 				{
-					"name": "Send WhatsApp Without Template",
+					"name": "Enviar Ubicación",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"from_phone_meta_id\": \"YOUR_WHATSAPP_PHONE_ID\",\n    \"phone\": \"573001234567\",\n    \"message\": {\n        \"type\": \"text\",\n        \"text\": {\n            \"body\": \"Hello, this is a test message from Onurix API\"\n        }\n    }\n}"
+							"raw": "{\r\n    // ⚠️ IMPORTANTE: Solo puedes enviar el mensaje a teléfonos o a grupos, pero no a ambos al mismo tiempo.\r\n\r\n    // Lista de números de teléfono separados por coma.\r\n    // Los números deben estar en formato nacional o internacional (ej. 57 para Colombia).\r\n    \"phones\": \"573000000000\",\r\n\r\n    // Identificadores de uno o más grupos registrados en Onurix.\r\n    // Comentar si se utiliza \"phones\".\r\n    // \"groups\": \"10,25\",\r\n\r\n    // Sección HEADER de la plantilla de WhatsApp.\r\n    // Aquí se define una ubicación para enviar como parte del mensaje.\r\n    \"header\": {\r\n        \"1\": {\r\n            \"type\": \"location\", // Tipo especial para enviar coordenadas geográficas\r\n            \"value\": {\r\n                \"latitude\": \"12.345678\",         // Latitud del punto geográfico\r\n                \"longitude\": \"-98.765432\",       // Longitud del punto geográfico\r\n                \"name\": \"Nombre del lugar\",      // Nombre del sitio (visible para el receptor)\r\n                \"address\": \"Dirección del lugar\" // Dirección completa del lugar\r\n            }\r\n        }\r\n    },\r\n\r\n    // Sección BODY de la plantilla.\r\n    // Aquí se insertan los textos personalizados del cuerpo del mensaje.\r\n    \"body\": {\r\n        \"1\": {\r\n            \"type\": \"text\",\r\n            \"value\": \"Nombre del destinatario\"\r\n        },\r\n        \"2\": {\r\n            \"type\": \"text\",\r\n            \"value\": \"Motivo o contexto del mensaje\"\r\n        }\r\n    },\r\n\r\n    // Sección BUTTON de la plantilla.\r\n    // Definir aquí si la plantilla contiene botones interactivos.\r\n    \"button\": {\r\n        // \"1\": {\r\n        //     \"type\": \"text\",\r\n        //     \"value\": \"Texto del botón\"\r\n        // }\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/whatsapp/send/without-template?key={{key}}&client={{client}}",
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -428,31 +428,179 @@
 								"api",
 								"v1",
 								"whatsapp",
-								"send",
-								"without-template"
+								"send"
 							],
 							"query": [
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "Key de la cuenta onurix"
+								},
+								{
+									"key": "template",
+									"value": "{{template-id}}",
+									"description": "Nombre de la plantilla que se usara para crear el mensaje"
 								}
 							]
 						},
-						"description": "Send a WhatsApp message without using a template."
+						"description": "Esta petición permite enviar notificaciones con una ubicación a través de WhatsApp, mediante una **plantilla previamente aprobada en Meta**, utilizando la plataforma de **Onurix**.\n\nPuedes personalizar el contenido del mensaje a través de las secciones `header`, `body` y `button`, de acuerdo con las variables definidas en la plantilla. También puedes elegir si deseas enviar el mensaje a uno o varios números telefónicos o a un grupo previamente creado en Onurix (pero **no ambos al mismo tiempo**).\n\n#### 🔧 Parámetros importantes:\n\n- `phones`: Lista de números separados por coma. Deben incluir el indicativo del país si se requiere.\n    \n- `groups`: Identificador(es) de grupo(s) creado(s) en Onurix (alternativo a `phones`).\n    \n- `header`, `body`, `button`: Secciones que corresponden a las variables de la plantilla de WhatsApp en Meta.\n    \n- `clientId`:Identificador único del cliente que realiza la solicitud.\n    \n- `keyId`:Clave de acceso que valida la autenticidad de la solicitud.\n    \n- `template`: El nombre o ID de la plantilla que se utilizará para el mensaje."
+					},
+					"response": []
+				},
+				{
+					"name": "Enviar Texto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // ⚠️ IMPORTANTE: Solo se puede enviar a teléfonos o a grupos, pero no a ambos al mismo tiempo.\r\n\r\n    // Lista de números de teléfono separados por coma.\r\n    // Deben estar en formato nacional o internacional con indicativo (ej. 57 para Colombia).\r\n    \"phones\": \"573203711034,3158398864\",\r\n\r\n    // Identificador de uno o más grupos registrados en Onurix (comentado si se usan \"phones\").\r\n    // \"groups\": \"1,5\",\r\n\r\n    // Sección HEADER de la plantilla de WhatsApp (Meta).\r\n    // Aquí se agregan las variables definidas como parte del header en la plantilla de Meta.\r\n    \"header\": {\r\n        // \"1\": {\r\n        //     \"type\": \"text\",\r\n        //     \"value\": \"Título del mensaje\"\r\n        // }\r\n    },\r\n\r\n    // Sección BODY de la plantilla.\r\n    // Las claves \"1\", \"2\", etc. hacen referencia al orden de los campos definidos en el cuerpo (body) de la plantilla.\r\n    \"body\": {\r\n        \"1\": {\r\n            \"type\": \"text\",                                     // Tipo de dato: text, image, video, etc.\r\n            \"value\": \"Este es un texto enviado desde Onurix\"    // Valor que se insertará en la primera variable del cuerpo\r\n        },\r\n        \"2\": {\r\n            \"type\": \"text\",\r\n            \"value\": \"Este es un texto enviado desde Onurix\" // Valor para la segunda variable del cuerpo\r\n        }\r\n    },\r\n\r\n    // Sección BUTTON de la plantilla.\r\n    // Aquí se definen las variables utilizadas en botones personalizados, si aplica.\r\n    \"button\": {\r\n        // \"1\": {\r\n        //     \"type\": \"text\",\r\n        //     \"value\": \"Sí, confirmar\"\r\n        // }\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"whatsapp",
+								"send"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{vault:onurix_key}}",
+									"description": "El Id del cliente"
+								},
+								{
+									"key": "client",
+									"value": "{{vault:onurix_client_id}}",
+									"description": "Key de la cuenta onurix"
+								},
+								{
+									"key": "template",
+									"value": "{{template-id}}",
+									"description": "Nombre de la plantilla que se usara para crear el mensaje"
+								}
+							]
+						},
+						"description": "Esta petición permite enviar notificaciones de texto a través de WhatsApp, mediante una **plantilla previamente aprobada en Meta**, utilizando la plataforma de **Onurix**.\n\nPuedes personalizar el contenido del mensaje a través de las secciones `header`, `body` y `button`, de acuerdo con las variables definidas en la plantilla. También puedes elegir si deseas enviar el mensaje a uno o varios números telefónicos o a un grupo previamente creado en Onurix (pero **no ambos al mismo tiempo**).\n\n#### 🔧 Parámetros importantes:\n\n- `phones`: Lista de números separados por coma. Deben incluir el indicativo del país si se requiere.\n    \n- `groups`: Identificador(es) de grupo(s) creado(s) en Onurix (alternativo a `phones`).\n    \n- `header`, `body`, `button`: Secciones que corresponden a las variables de la plantilla de WhatsApp en Meta.\n    \n- `clientId`:Identificador único del cliente que realiza la solicitud.\n    \n- `keyId`:Clave de acceso que valida la autenticidad de la solicitud.\n    \n- `template`: El nombre o ID de la plantilla que se utilizará para el mensaje."
+					},
+					"response": []
+				},
+				{
+					"name": "Enviar Video",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // ⚠️ IMPORTANTE: Solo se puede enviar a teléfonos o a grupos, pero no a ambos al mismo tiempo.\r\n\r\n    // Lista de números de teléfono separados por coma.\r\n    // Deben estar en formato nacional o internacional con indicativo (ej. 57 para Colombia).\r\n    \"phones\": \"573201234567,311123456789\",\r\n\r\n    // Identificador de uno o más grupos registrados en Onurix (comentado si se usan \"phones\").\r\n    // \"groups\": \"1,5\",\r\n\r\n    // Sección HEADER de la plantilla de WhatsApp.\r\n    // Aquí defines variables del encabezado, como documentos, imágenes, videos o texto, según lo configurado en Meta.\r\n    \"header\": {\r\n        \"1\": {\r\n            \"type\": \"video\", // Tipo de contenido: \"text\", \"image\", \"video\", o \"document\"\r\n            \"value\": {\r\n                \"link\": \"https://tudominio.com/archivo-video.mp4\" // URL pública y válida del video\r\n                // \"meta_media_id\": \"ID_OPCIONAL_DEL_RECURSO\", // Opcional: ID del recurso multimedia en Meta\r\n            }\r\n        }\r\n    },\r\n\r\n    // Sección BODY de la plantilla.\r\n    // Define aquí las variables que se insertarán en el cuerpo del mensaje.\r\n    \"body\": {\r\n        \"1\": {\r\n            \"type\": \"text\",\r\n            \"value\": \"Valor de la variable 1\"\r\n        },\r\n        \"2\": {\r\n            \"type\": \"text\",\r\n            \"value\": \"Valor de la variable 2\"\r\n        }\r\n    },\r\n\r\n    // Sección BUTTON de la plantilla.\r\n    // Define los botones si tu plantilla los incluye.\r\n    \"button\": {\r\n        // \"1\": {\r\n        //     \"type\": \"text\",\r\n        //     \"value\": \"Texto del botón\"\r\n        // }\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"whatsapp",
+								"send"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{vault:onurix_key}}",
+									"description": "El Id del cliente"
+								},
+								{
+									"key": "client",
+									"value": "{{vault:onurix_client_id}}",
+									"description": "Key de la cuenta onurix"
+								},
+								{
+									"key": "template",
+									"value": "{{template-id}}",
+									"description": "Nombre de la plantilla que se usara para crear el mensaje"
+								}
+							]
+						},
+						"description": "Esta petición permite enviar videos a través de notificaciones de WhatsApp, mediante una **plantilla previamente aprobada en Meta**, utilizando la plataforma de **Onurix**.\n\nPuedes personalizar el contenido del mensaje a través de las secciones `header`, `body` y `button`, de acuerdo con las variables definidas en la plantilla. También puedes elegir si deseas enviar el mensaje a uno o varios números telefónicos o a un grupo previamente creado en Onurix (pero **no ambos al mismo tiempo**).\n\n#### 🔧 Parámetros importantes:\n\n- `phones`: Lista de números separados por coma. Deben incluir el indicativo del país si se requiere.\n    \n- `groups`: Identificador(es) de grupo(s) creado(s) en Onurix (alternativo a `phones`).\n    \n- `header`, `body`, `button`: Secciones que corresponden a las variables de la plantilla de WhatsApp en Meta.\n    \n- `clientId`:Identificador único del cliente que realiza la solicitud.\n    \n- `keyId`:Clave de acceso que valida la autenticidad de la solicitud.\n    \n- `template`: El nombre o ID de la plantilla que se utilizará para el mensaje."
+					},
+					"response": []
+				},
+				{
+					"name": "Enviar Mensaje Sin Plantilla",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\": \"3203711034\",\r\n    \"message\": {\r\n        \"type\" : \"text\",\r\n        \"value\": \"Esto es un mensaje sin plantilla\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"whatsapp",
+								"send"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{vault:onurix_key}}",
+									"description": "El Id del cliente"
+								},
+								{
+									"key": "client",
+									"value": "{{vault:onurix_client_id}}",
+									"description": "Key de la cuenta onurix"
+								}
+							]
+						}
 					},
 					"response": []
 				}
 			],
-			"description": "WhatsApp messaging endpoints"
+			"description": "Esta sección contiene los **endpoints para el envío de mensajes de WhatsApp** utilizando la plataforma de **Onurix**.  \nPermite enviar diferentes tipos de mensajes —**texto, imagen, video, documento y ubicación**— mediante **plantillas previamente aprobadas por Meta**, o mensajes **sin plantilla** dentro de una sesión activa.\n\nLos mensajes enviados a través de Onurix se procesan en tiempo real y parten inicialmente del estado **“enviado”**.  \nEn caso de presentarse un inconveniente durante la entrega (por ejemplo, número inválido, cuenta de WhatsApp inactiva o error de Meta), el mensaje pasará al estado **“rechazado”** y los **créditos consumidos serán automáticamente devueltos** a tu cuenta.  \nEsto garantiza transparencia y control sobre el uso de tus recursos.\n\n---\n\n## 🚀 Casos de uso\n\n- Envío de notificaciones automatizadas a través de plantillas aprobadas por Meta.\n    \n- Distribución de contenido multimedia (documentos, imágenes, videos o ubicaciones) por WhatsApp Business.\n    \n- Personalización de mensajes mediante las secciones **Header**, **Body** y **Button**.\n    \n- Envío masivo de mensajes a través de **grupos de contactos** creados en el portal Onurix.\n    \n- Comunicación directa dentro de una sesión activa mediante mensajes **sin plantilla**.\n    \n\n---\n\n## 🧩 Tipos de mensajes soportados\n\n1. **Enviar Texto** → Notificaciones o mensajes personalizados con variables dinámicas.\n    \n2. **Enviar Imagen** → Mensajes con imagen en el encabezado.\n    \n3. **Enviar Video** → Notificaciones con video incrustado.\n    \n4. **Enviar Documento** → Mensajes que incluyen archivos PDF u otros documentos.\n    \n5. **Enviar Ubicación** → Mensajes con coordenadas geográficas y dirección visible.\n    \n6. **Enviar Mensaje sin Plantilla** → Comunicación directa dentro de una conversación iniciada por el usuario.\n    \n\n---\n\n## ⚙️ Requisitos generales\n\n- Cada solicitud requiere autenticación con las variables `client` y `key` de Onurix.\n    \n- Los números de destino deben estar en formato internacional **E.164** (ejemplo: `573001234567`).\n    \n- Para mensajes con plantilla, el parámetro `template` debe corresponder al **nombre o ID de la plantilla aprobada** en Meta.\n    \n- Puedes enviar el mensaje a uno o varios números (`phones`) o a **un grupo precreado** (`groups`), pero **no ambos al mismo tiempo**.\n    \n- Los recursos multimedia (imágenes, videos, documentos) deben ser accesibles mediante **URLs públicas** o mediante un **Meta Media ID** previamente cargado.\n    \n\n---\n\n## 🛠️ Recomendaciones\n\n- Asegúrate de que la plantilla que deseas usar se encuentre **sincronizada y aprobada por Meta**.\n    \n- Si utilizas grupos, **no incluyas la lista de números** en el mismo request.\n    \n- Cada tipo de mensaje utiliza la misma estructura de cuerpo (`header`, `body`, `button`), adaptada al contenido de la plantilla.\n    \n- El campo `header` permite definir el tipo de contenido multimedia: `\"text\"`, `\"image\"`, `\"video\"`, `\"document\"` o `\"location\"`.\n    \n- Los mensajes sin plantilla solo pueden enviarse **dentro de la ventana activa de 24 horas** desde el último mensaje del usuario.\n    \n- Todos los envíos (individuales o masivos) **consumen créditos** según el tipo de mensaje y el destino.\n    \n\n---\n\n## ⚠️ Notas importantes\n\n- Los mensajes solo se entregan a **números con cuenta activa de WhatsApp**.\n    \n- Los parámetros `header`, `body` y `button` deben coincidir con las variables definidas en la plantilla de Meta.\n    \n- Si se utiliza un **grupo de contactos**, no se deben incluir números separados por coma en `phones`.\n    \n- Si se usa un **archivo multimedia (imagen, video o documento)**, debe especificarse solo ese tipo en el `header`.\n    \n- Los mensajes sin plantilla no requieren parámetro `template`.\n    \n- Puedes consultar el estado de entrega de cada mensaje mediante el **ID devuelto en la respuesta**.\n    \n\n---"
 		},
 		{
-			"name": "General",
+			"name": "⚙️ General",
 			"item": [
 				{
 					"name": "Get Balance",
@@ -460,7 +608,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/balance?client={{client}}&key={{key}}",
+							"raw": "https://www.onurix.com/api/v1/balance?client={{vault:onurix_client_id}}&key={{vault:onurix_key}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -475,17 +623,17 @@
 							"query": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								}
 							]
 						},
-						"description": "Check your account credit balance."
+						"description": "Consulta el **saldo actual de créditos disponibles en tu cuenta Onurix**.  \nEste endpoint permite verificar en tiempo real la cantidad de créditos restantes para el envío de SMS, llamadas, mensajes de WhatsApp u otros servicios asociados a tu cuenta.\n\nEs ideal para integraciones que requieren **validar el saldo antes de realizar un envío masivo o automatizado**, evitando errores por falta de créditos."
 					},
 					"response": []
 				},
@@ -508,18 +656,18 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "phone",
-									"value": "573001234567",
-									"description": "Phone number to block"
+									"value": "{{phone}}",
+									"description": "Numero de telefonico a bloquear. Ej “573150123456”"
 								}
 							]
 						},
@@ -538,7 +686,7 @@
 								"block"
 							]
 						},
-						"description": "Block a phone number to prevent receiving communications."
+						"description": "Este endpoint permite **bloquear un número telefónico** dentro de tu cuenta Onurix, impidiendo que reciba futuras notificaciones por **SMS, llamadas o WhatsApp**.\n\nSu principal finalidad es garantizar el **cumplimiento de la normativa de protección de datos personales (Habeas Data)**, permitiendo registrar números cuyos titulares hayan manifestado que **no desean seguir recibiendo comunicaciones**.\n\nUna vez bloqueado, el número quedará excluido automáticamente de cualquier intento de envío, sin necesidad de modificar tus integraciones o listas de contactos."
 					},
 					"response": []
 				},
@@ -561,28 +709,28 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "phone",
-									"value": "573001234567",
-									"description": "Phone number"
+									"value": "{{phone}}",
+									"description": "Número telefónico del usuario que recibió el código (en formato internacional, ej. `573001234567`)."
 								},
 								{
 									"key": "code",
 									"value": "123456",
-									"description": "2FA code to verify"
+									"description": "Código que el usuario ingresa para validación."
 								},
 								{
 									"key": "app-name",
-									"value": "MyApp",
-									"description": "Name of your 2FA application"
+									"value": "{{2fa-app-name}}",
+									"description": "Nombre de la app que va a ser usada para generar el codigo"
 								}
 							]
 						},
@@ -601,7 +749,7 @@
 								"2fa"
 							]
 						},
-						"description": "Verify a 2FA code sent to a phone number."
+						"description": "Este endpoint permite **verificar un código de autenticación (2FA)** previamente enviado al usuario por **SMS o llamada**, garantizando la validez del intento de acceso o acción segura dentro de tu aplicación.\n\nEl servicio valida que el código ingresado por el usuario **coincida con el registrado en Onurix**, que esté **dentro de su tiempo de vigencia** y que **no haya sido utilizado previamente**.  \nEn caso de éxito, la respuesta confirmará la validación; si el código es incorrecto o ha expirado, se devolverá un error indicando la causa.\n\n\n---\n\n### 📘 Comportamiento general\n\n- Onurix valida el código recibido contra el registro original enviado por el servicio 2FA.  \n- Si el código es correcto y aún está vigente, devuelve una respuesta exitosa.  \n- Si el código es incorrecto, expirado o ya fue usado, el sistema responderá con un estado de error.  \n- Cada código solo puede verificarse una vez; cualquier intento posterior será rechazado.\n"
 					},
 					"response": []
 				},
@@ -611,7 +759,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/verify/message?client={{client}}&key={{key}}&id=MESSAGE_ID",
+							"raw": "https://www.onurix.com/api/v1/verify/message?client={{vault:onurix_client_id}}&key={{vault:onurix_key}}&id=MESSAGE_ID",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -627,30 +775,30 @@
 							"query": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "id",
 									"value": "MESSAGE_ID",
-									"description": "ID of the SMS or Call to verify"
+									"description": "Identificador único (UUID) del mensaje o llamada que deseas consultar. Este valor se obtiene en la respuesta del envío inicial."
 								}
 							]
 						},
-						"description": "Check the status of a sent SMS or call."
+						"description": "Este endpoint permite **consultar el estado actual de un mensaje o llamada** enviada a través de la plataforma **Onurix**, utilizando el identificador único (`id`) devuelto en la respuesta original del envío.  \n\nEs una herramienta fundamental para realizar **seguimiento en tiempo real del ciclo de entrega**, conocer si el mensaje fue entregado, leído o rechazado, y mantener sincronizado el estado en tus sistemas internos.\n\n---\n\n### 📘 Comportamiento general\n\n- Al realizar la consulta, Onurix devuelve el estado más reciente del mensaje o llamada.  \n- Los estados posibles incluyen:\n  - **Enviado:** el mensaje fue procesado correctamente y se encuentra en tránsito.  \n  - **Entregado:** el mensaje llegó al dispositivo del usuario o la llamada fue atendida.  \n  - **Leído:** el destinatario abrió o visualizó el mensaje (aplica para WhatsApp y SMS con confirmación).  \n  - **Rechazado:** la entrega falló (por ejemplo, número inactivo o error en la red).  \n- Si un mensaje es **rechazado**, los **créditos consumidos son devueltos automáticamente** a tu cuenta.  "
 					},
 					"response": []
 				}
 			],
-			"description": "General API endpoints for account management"
+			"description": "Esta sección contiene los **endpoints generales del API de Onurix** relacionados con la **gestión de cuenta, seguridad y verificación de mensajes o códigos 2FA**.  \n\nEstos métodos te permiten consultar tu saldo de créditos, bloquear números para evitar comunicaciones, validar códigos 2FA enviados por SMS o llamada, y verificar el estado actual de mensajes enviados a través de los diferentes canales de Onurix.\n\n---\n\n## 🚀 Casos de uso\n\n- **Consultar saldo de créditos:** Verifica el saldo disponible en tu cuenta Onurix antes de realizar envíos.  \n- **Bloquear números:** Restringe números específicos para evitar que reciban mensajes o llamadas desde tus integraciones.  \n- **Verificar códigos 2FA:** Comprueba si el usuario ingresó correctamente el código de autenticación enviado.  \n- **Revisar el estado de un mensaje:** Confirma si un SMS o llamada fue entregado, leído o rechazado.\n\n---\n\n## 📘 Endpoints disponibles\n\n1. **Get Balance** → Consulta el saldo actual de créditos de tu cuenta.  \n2. **Security – Block Number** → Bloquea un número telefónico para impedir futuras comunicaciones.  \n3. **Verify 2FA Code** → Verifica un código 2FA previamente enviado por SMS o llamada.  \n4. **Verify Message Status** → Consulta el estado actual de un mensaje o llamada enviados.\n\n---\n\n## ⚙️ Requisitos generales\n\n- Todos los endpoints requieren autenticación mediante tus credenciales de cuenta:  \n  - `client` → Tu **Client ID**.  \n  - `key` → Tu **API Key**.  \n- Las peticiones pueden realizarse con método **GET** o **POST**, según el tipo de operación.  \n- La URL base del servicio es:  \n  `https://www.onurix.com/api/v1`\n\n---\n\n## 🛠️ Recomendaciones de uso\n\n- Antes de realizar un envío, verifica tu saldo con **Get Balance** para evitar errores por falta de créditos.  \n- Utiliza **Block Number** para registrar números cuyos titulares **han solicitado no recibir más comunicaciones**, cumpliendo con las normas de **protección de datos personales (Habeas Data)**.    \n- El endpoint **Verify 2FA Code** debe usarse inmediatamente después de que el usuario ingrese su código, dentro del tiempo de vigencia definido.  \n\n---\n\n## ⚠️ Notas importantes\n \n- El bloqueo de números mediante **Security – Block Number** es inmediato y aplica a todos los canales (SMS, llamadas y WhatsApp).  \n- Los códigos 2FA tienen una **vigencia limitada** (configurable por aplicación). Si expira, el usuario deberá solicitar un nuevo código.  "
 		},
 		{
-			"name": "Groups and Contacts",
+			"name": "👥 Groups and Contacts",
 			"item": [
 				{
 					"name": "Create Group",
@@ -671,18 +819,18 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "name",
-									"value": "My Group",
-									"description": "Name for the new group"
+									"value": "Clientes",
+									"description": "Nombre del grupo"
 								}
 							]
 						},
@@ -701,7 +849,7 @@
 								"create"
 							]
 						},
-						"description": "Create a new contact group."
+						"description": "Este endpoint permite **crear un nuevo grupo de contactos** dentro de tu cuenta Onurix.  \nLos grupos sirven para **organizar y segmentar contactos** según tus necesidades de comunicación —por ejemplo, campañas, regiones, preferencias o tipos de cliente— y pueden utilizarse directamente en los envíos de **SMS, llamadas o mensajes de WhatsApp**.\n\nUna vez creado, el grupo queda disponible inmediatamente en tu cuenta y puede visualizarse o administrarse desde el portal de Onurix o mediante otros endpoints de la API.\n"
 					},
 					"response": []
 				},
@@ -711,7 +859,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/group/list?client={{client}}&key={{key}}",
+							"raw": "https://www.onurix.com/api/v1/group/list?client={{vault:onurix_client_id}}&key={{vault:onurix_key}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -727,17 +875,17 @@
 							"query": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								}
 							]
 						},
-						"description": "List all contact groups in your account."
+						"description": "Este endpoint permite **consultar el listado de grupos creados** dentro de tu cuenta Onurix.  \nEs útil para obtener una vista general de todos los grupos disponibles, así como para mostrar esta información en tus sistemas o interfaces de administración.\n\nCada grupo contiene su identificador único, nombre, entre otros datos.  \nLa información devuelta puede utilizarse para **asociar contactos, ejecutar envíos masivos** o realizar actualizaciones posteriores mediante otros endpoints."
 					},
 					"response": []
 				},
@@ -760,23 +908,23 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "group-id",
 									"value": "123",
-									"description": "ID of the group to update"
+									"description": "Identificador del grupo a actualizar"
 								},
 								{
 									"key": "name",
-									"value": "Updated Group Name",
-									"description": "New name for the group"
+									"value": "Nombre nuevo",
+									"description": "Nombre del grupo"
 								}
 							]
 						},
@@ -795,7 +943,7 @@
 								"update"
 							]
 						},
-						"description": "Update a group's name."
+						"description": "Este endpoint permite **actualizar la información de un grupo existente** dentro de tu cuenta Onurix.  \nPuedes modificar el **nombre** de un grupo previamente creado, sin afectar a los contactos que ya estén asociados a él.\n\nEste método es ideal para mantener tu base de grupos organizada y actualizada según los cambios en tus campañas o segmentos de clientes.\n\n### 📘 Comportamiento general\n\n- Permite editar los datos básicos del grupo (nombre).  \n- Los contactos vinculados al grupo **no se ven afectados** por la actualización.  \n- Si el nuevo nombre ya existe en otro grupo, el sistema devolverá un error de duplicidad.  \n- Los cambios se reflejan de forma **inmediata** en el portal y en todos los endpoints relacionados.  \n"
 					},
 					"response": []
 				},
@@ -818,18 +966,18 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta onurix"
 								},
 								{
 									"key": "group-id",
 									"value": "123",
-									"description": "ID of the group to delete"
+									"description": "Identificador del grupo a eliminar"
 								}
 							]
 						},
@@ -848,7 +996,7 @@
 								"delete"
 							]
 						},
-						"description": "Delete a contact group."
+						"description": "Este endpoint permite **eliminar un grupo existente** dentro de tu cuenta Onurix, a partir de su identificador (`group_id`).  \nSe utiliza para mantener organizada tu base de datos de grupos, eliminando aquellos que ya no se utilizan en tus campañas o procesos de comunicación.\n\n⚠️ **Importante:** solo se pueden eliminar grupos que **no tengan contactos asociados**.  \nSi el grupo aún contiene contactos, el sistema devolverá un error y el proceso no se completará.  \nDeberás eliminar o desvincular primero los contactos del grupo antes de intentar su eliminación."
 					},
 					"response": []
 				},
@@ -871,39 +1019,33 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta Onurix"
 								},
 								{
 									"key": "name",
 									"value": "John",
-									"description": "Contact first name"
+									"description": "Nombre del contacto"
 								},
 								{
 									"key": "lastname",
 									"value": "Doe",
-									"description": "Contact last name"
+									"description": "Apellido del contacto"
 								},
 								{
 									"key": "phone",
 									"value": "573001234567",
-									"description": "Contact phone number"
+									"description": "Telefono del contacto"
 								},
 								{
 									"key": "email",
 									"value": "john.doe@example.com",
-									"description": "Contact email"
-								},
-								{
-									"key": "groups",
-									"value": "1,2,3",
-									"description": "Optional: Group IDs (comma-separated)",
-									"disabled": true
+									"description": "Correo electronico del contacto"
 								}
 							]
 						},
@@ -922,7 +1064,7 @@
 								"create"
 							]
 						},
-						"description": "Create a new contact."
+						"description": "Este endpoint permite **crear un nuevo contacto** dentro de tu cuenta Onurix.  \nEl contacto se registra con nombre, apellido, correo electrónico y número de teléfono. Una vez creado, el contacto podrá ser asociado a uno o varios grupos y utilizado en envíos de SMS, llamadas o WhatsApp.\n\n---\n\n### 📘 Comportamiento general\n\n- El número de teléfono se debe registrar en el formato indicado por la plataforma.\n    \n- Si el número, correo o combinación ya existe dentro de tu cuenta, el sistema puede devolver un error de duplicidad.\n    \n- El contacto creado queda disponible de inmediato para ser usado en otros procesos de envío o gestión de grupos.\n    \n- Los campos `name`, `lastname`, `email` y `phone` son obligatorios para este endpoint según la documentación oficial."
 					},
 					"response": []
 				},
@@ -945,38 +1087,38 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta Onurix"
 								},
 								{
 									"key": "id",
 									"value": "12345",
-									"description": "Contact ID to update"
+									"description": "Id del contacto a actualizar"
 								},
 								{
 									"key": "name",
 									"value": "John",
-									"description": "Updated first name"
+									"description": "Nombre del usuario a actualizar"
 								},
 								{
 									"key": "lastname",
 									"value": "Smith",
-									"description": "Updated last name"
+									"description": "Apellido del usuario a actualizar"
 								},
 								{
 									"key": "phone",
 									"value": "573001234567",
-									"description": "Updated phone number"
+									"description": "Telefono del usuario a actulizar"
 								},
 								{
 									"key": "email",
 									"value": "john.smith@example.com",
-									"description": "Updated email"
+									"description": "Email del contacto a actualizar"
 								}
 							]
 						},
@@ -995,7 +1137,7 @@
 								"update"
 							]
 						},
-						"description": "Update an existing contact's information."
+						"description": "Este endpoint permite **actualizar los datos de un contacto ya existente** en tu cuenta Onurix.  \nPuedes modificar uno o varios campos del contacto (como nombre, apellido, correo o número telefónico) sin necesidad de eliminar y volver a crear el registro.\n\n---\n\n### 📘 Comportamiento general\n\n- Se identifica el contacto mediante su `id` único y, a partir de ahí, se pueden modificar los campos disponibles. \n- Los campos que **pueden actualizarse** incluyen: `name`, `lastname`, `phone`, `email`.  \n- Si el número o correo ingresado ya existe en otro contacto de la cuenta, el sistema puede devolver un error de duplicidad.  \n- La actualización se refleja de forma **inmediata** en el portal Onurix y en los envíos posteriores."
 					},
 					"response": []
 				},
@@ -1018,18 +1160,18 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta Onurix"
 								},
 								{
 									"key": "id",
 									"value": "12345",
-									"description": "Contact ID to delete"
+									"description": "Id del contacto a ser eliminado"
 								}
 							]
 						},
@@ -1048,7 +1190,7 @@
 								"delete"
 							]
 						},
-						"description": "Delete a contact."
+						"description": "Este endpoint permite **eliminar un contacto existente** de tu cuenta Onurix mediante su identificador (`id`).  \nEs útil para depurar o dar de baja contactos que ya no forman parte de tus listas de envío o que han solicitado no recibir más comunicaciones.\n\n---\n\n### 📘 Comportamiento general\n\n- La eliminación del contacto se realiza de forma **permanente** e inmediata. \n- Los datos internos del contacto se retiran del listado de contactos activos, y ya no podrá recibir envíos.  \n- Si el `id` especificado no corresponde a un contacto existente, se devolverá un error."
 					},
 					"response": []
 				},
@@ -1058,7 +1200,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/contact/group/list?client={{client}}&key={{key}}&group-id=123",
+							"raw": "https://www.onurix.com/api/v1/contact/group/list?client={{vault:onurix_client_id}}&key={{vault:onurix_key}}&group-id=123",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -1075,22 +1217,22 @@
 							"query": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta Onurix"
 								},
 								{
 									"key": "group-id",
 									"value": "123",
-									"description": "Group ID to list contacts from"
+									"description": "El Id del grupo a eliminar"
 								}
 							]
 						},
-						"description": "List all contacts in a specific group."
+						"description": "Este endpoint permite **consultar todos los contactos asociados a un grupo específico** dentro de tu cuenta Onurix.  \nEs ideal para obtener el detalle de los miembros de un grupo antes de ejecutar un envío masivo o para verificar la estructura de tus listas segmentadas.\n\n---\n\n### 📘 Comportamiento general\n\n- Devuelve la lista completa de contactos pertenecientes al grupo indicado mediante su identificador (`group_id`).  \n- La información incluye datos como el nombre, apellido, correo electrónico y número de teléfono de cada contacto.  \n- Si el grupo no contiene contactos, se devuelve una lista vacía.  \n- Si el `group_id` no corresponde a un grupo válido o no existe, el sistema devolverá un error.  \n- Este endpoint solo muestra contactos **activos** dentro del grupo.  "
 					},
 					"response": []
 				},
@@ -1113,23 +1255,23 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta Onurix"
 								},
 								{
 									"key": "id",
 									"value": "12345",
-									"description": "Contact ID"
+									"description": "Id Del Contacto"
 								},
 								{
 									"key": "group-id",
 									"value": "123",
-									"description": "Group ID"
+									"description": "Id del Grupo"
 								}
 							]
 						},
@@ -1149,7 +1291,7 @@
 								"associate"
 							]
 						},
-						"description": "Associate a contact with a group."
+						"description": "Este endpoint permite **asociar uno o varios contactos a un grupo existente** dentro de tu cuenta Onurix.  \nEs una operación clave para mantener tus grupos actualizados y segmentar correctamente tus envíos de **SMS, llamadas o mensajes de WhatsApp**.\n\nCon este método, puedes agregar contactos previamente creados a un grupo específico para incluirlos en futuras campañas o notificaciones masivas.\n\n---\n\n### 📘 Comportamiento general\n\n- El contacto y el grupo deben existir previamente en tu cuenta.\n- La asociación se realiza mediante los identificadores (`id` y `group-id`).\n- Si el contacto ya está asociado al grupo, el sistema ignorará la duplicidad y devolverá una respuesta exitosa sin error.\n- La asociación es inmediata y se refleja tanto en la API como en el portal web de Onurix.\n- Este proceso **no consume créditos**, ya que no implica ningún envío de mensaje."
 					},
 					"response": []
 				},
@@ -1172,23 +1314,23 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta Onurix"
 								},
 								{
 									"key": "id",
 									"value": "12345",
-									"description": "Contact ID"
+									"description": "Id Del Contacto"
 								},
 								{
 									"key": "group-id",
 									"value": "123",
-									"description": "Group ID"
+									"description": "Id del Grupo"
 								}
 							]
 						},
@@ -1208,15 +1350,15 @@
 								"dissociate"
 							]
 						},
-						"description": "Remove a contact from a group."
+						"description": "Este endpoint permite **desasociar (eliminar) un contacto de un grupo existente** dentro de tu cuenta Onurix.  \nSe utiliza para mantener tus grupos actualizados, retirando contactos que ya no deben recibir notificaciones dentro de una campaña o segmento específico.\n\nLa operación no elimina el contacto de la cuenta; simplemente **remueve la relación entre el contacto y el grupo**, manteniendo ambos registros activos.\n\n---\n\n### 📘 Comportamiento general\n\n- El contacto y el grupo deben existir previamente en tu cuenta.  \n- La disociación se realiza utilizando los identificadores (`id` y `group-id`).  \n- Si el contacto no pertenece al grupo, el sistema devolverá una respuesta de error informativa.  \n- La desvinculación es inmediata y se refleja tanto en la API como en el portal web de Onurix.  \n- Esta acción no consume créditos ni afecta otros grupos a los que el contacto esté asociado.  \n"
 					},
 					"response": []
 				}
 			],
-			"description": "Contact and group management endpoints"
+			"description": "Esta sección agrupa todos los endpoints relacionados con la **gestión de grupos de envío y contactos** dentro de la plataforma Onurix.  \nCon ella podrás **crear, modificar, listar y eliminar** tanto grupos como contactos, así como **asociar o desvincular** contactos a esos grupos. Esto permite estructurar tus bases de datos de una forma organizada y lista para enviarlos a través de SMS, llamadas o WhatsApp.\n\n---\n\n## 🚀 Casos de uso\n\n- Crear un nuevo grupo para envíos segmentados (por ejemplo: “Clientes VIP”, “Suscriptores”, “Usuarios inactivos”).  \n- Listar los grupos existentes para mostrar en tu aplicación o panel de administración.  \n- Actualizar los datos de un grupo para cambiar su nombre, descripción o atributo.  \n- Eliminar un grupo que ya no es necesario.  \n- Crear un nuevo contacto con su número telefónico y datos asociados.  \n- Actualizar los datos de un contacto (nombre, etiqueta, estado).  \n- Eliminar un contacto que ya no debe recibir comunicaciones.  \n- Asociar o vincular un contacto a uno o más grupos para facilitar envíos conjuntos.  \n- Quitar un contacto de un grupo cuando ya no debe pertenecer a ese segmento.  \n- Mostrar la lista de contactos de un grupo o la lista de grupos de un contacto para control y reporting.\n\n---\n\n## ⚙️ Requisitos generales\n\n- Todas las peticiones requieren autenticación mediante tus credenciales (`client` y `key`).  \n- Los números telefónicos deben proporcionarse en formato internacional **E.164** (ej. `573001234567`).  \n- Los cambios en grupos o contactos se reflejan **inmediatamente** en la plataforma Onurix, y están disponibles para su uso en envíos de mensajes.  \n- Las asociaciones “contacto → grupo” permiten que luego utilices los grupos directamente en tus endpoints de envío (por ejemplo SMS, llamadas o WhatsApp) sin necesidad de enviar manualmente cada número.\n\n---\n\n## 🛠️ Recomendaciones de uso\n\n- Mantén un buen control de tus grupos para evitar duplicaciones o envíos innecesarios a segmentos vacíos.  \n- Verifica regularmente que los contactos dentro de los grupos tengan su **consentimiento activo** para recibir comunicaciones (cumplimiento de normativas de datos personales).  \n- Cuando elimines un contacto o un grupo, asegúrate de que ya no se utilice en listas de envío o integraciones activas.  \n- Utiliza la lista de contactos de un grupo para configurar fácilmente envíos masivos sin tener que manejar listados manuales.  \n- Implementa flujos de mantenimiento (por ejemplo: limpiar contactos inactivos o actualizar nombres) para mantener la base de datos eficiente y relevante.\n\n---\n\n## ⚠️ Notas importantes\n\n- Asociar un contacto a un grupo no genera crédito de envío; el crédito se consume únicamente en el momento de enviar el mensaje mediante los canales de Onurix.  \n- Si un contacto es bloqueado (por petición de no-contacto) o eliminado, ya no recibirá comunicaciones aunque permanezca en un grupo.  \n- La gestión de contactos y grupos está diseñada para funcionar como la capa previa al envío de mensajes: te permite segmentar, agrupar y preparar antes de la acción de envío masivo o automatizado.  \n- Asegúrate de mantener sincronizadas tus listas internas con lo que tienes en Onurix para evitar inconsistencias o envíos duplicados.\n"
 		},
 		{
-			"name": "URL Shortener",
+			"name": "🔗 URL Shortener",
 			"item": [
 				{
 					"name": "Create Short URL",
@@ -1237,23 +1379,57 @@
 							"urlencoded": [
 								{
 									"key": "client",
-									"value": "{{client}}",
+									"value": "{{vault:onurix_client_id}}",
 									"description": "Your Client ID"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
+									"value": "{{vault:onurix_key}}",
 									"description": "Your API Key"
+								},
+								{
+									"key": "name",
+									"value": "url_corta",
+									"description": "Nombre de la URL corta"
 								},
 								{
 									"key": "url-long",
 									"value": "https://example.com/very/long/url/that/needs/shortening",
-									"description": "The original URL to shorten"
+									"description": "URL larga"
 								},
 								{
 									"key": "alias",
 									"value": "",
-									"description": "Optional: Custom alias for the short URL",
+									"description": "Alias para la URL corta",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "is-premium",
+									"value": "",
+									"description": "Indica si es una url de paga",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "group-name",
+									"value": "",
+									"description": "Grupo al que se desea asociar",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "domain-name",
+									"value": "",
+									"description": "Dominio al que se desea asociar",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "expiration-time-statistics",
+									"value": "",
+									"description": "Expiración de la Url en meses, por defecto es 0",
+									"type": "text",
 									"disabled": true
 								}
 							]
@@ -1273,7 +1449,7 @@
 								"shortener"
 							]
 						},
-						"description": "Create a shortened URL."
+						"description": "Este endpoint permite **acortar una URL original** generando un **enlace corto único** dentro del ecosistema de Onurix.  \nLos enlaces creados pueden incluirse en **mensajes SMS, WhatsApp o campañas masivas**, optimizando el espacio del mensaje y facilitando el seguimiento de interacciones.\n\nPuedes decidir si el enlace será estándar o **premium**, dependiendo del nivel de análisis estadístico que desees conservar.\n\n---\n\n### ⚙️ Comportamiento general\n\n- El sistema genera una URL corta basada en el dominio oficial de Onurix.  \n- Cada enlace creado incluye una referencia única y segura.  \n- Las URLs pueden ser estándar (sin costo) o premium (con seguimiento avanzado).  \n- El enlace corto es funcional inmediatamente después de su creación.  \n- Si el enlace ya existe en tu cuenta, Onurix puede retornar la referencia existente.  \n"
 					},
 					"response": []
 				},
@@ -1283,7 +1459,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/url/statistics?client={{client}}&key={{key}}&url=SHORT_URL_CODE",
+							"raw": "https://www.onurix.com/api/v1/url/statistics?client={{vault:onurix_client_id}}&key={{vault:onurix_key}}&name-url=https://onx.la/XXXXXx&since=2015-12-27&until=2016-01-28",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -1299,27 +1475,43 @@
 							"query": [
 								{
 									"key": "client",
-									"value": "{{client}}",
-									"description": "Your Client ID"
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
 								},
 								{
 									"key": "key",
-									"value": "{{key}}",
-									"description": "Your API Key"
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta Onurix"
 								},
 								{
-									"key": "url",
-									"value": "SHORT_URL_CODE",
-									"description": "The short URL code or alias"
+									"key": "name-url",
+									"value": "https://onx.la/XXXXXx",
+									"description": "Nombre de la URL corta"
+								},
+								{
+									"key": "since",
+									"value": "2015-12-27",
+									"description": "Fecha inicial año-mes-día"
+								},
+								{
+									"key": "until",
+									"value": "2016-01-28",
+									"description": "Fecha hasta año-mes-día"
+								},
+								{
+									"key": "category",
+									"value": null,
+									"description": "Categoría que desea información detallada {date,hour,country,device,operatingSystem} URLs Premium adicional {region,city,brand,model,browser,lang}",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Get statistics for a shortened URL."
+						"description": "Este endpoint permite **consultar las estadísticas de uso de una URL acortada**, incluyendo el número total de clics, la fecha de creación, la última visita registrada y la URL original.  \n\nEl objetivo es ofrecer trazabilidad y análisis del rendimiento de los enlaces utilizados en tus campañas de **SMS, WhatsApp o notificaciones transaccionales**.\n\n---\n\n### ⚙️ Comportamiento general\n\n- Devuelve estadísticas tanto de enlaces **estándar** como **premium**.  \n- Las URLs premium ofrecen métricas extendidas por un periodo de **3 meses** (renovables).  \n- Los datos se actualizan en tiempo real conforme los usuarios interactúan con los enlaces.  \n- Puedes consultar cualquier URL creada con tu cuenta, siempre que no haya sido eliminada.  \n- Este endpoint **no consume créditos**."
 					},
 					"response": []
 				}
 			],
-			"description": "URL shortening and tracking endpoints"
+			"description": "El módulo **URL Shortener** de Onurix permite **acortar URLs largas** y obtener **estadísticas de uso** para medir la interacción de tus usuarios en campañas enviadas por **SMS, WhatsApp o notificaciones masivas**.  \n\nCon este servicio puedes crear enlaces cortos personalizados, mantener tus mensajes limpios y profesionales, y hacer seguimiento a la cantidad de clics y conversiones generadas.\n\n---\n\n## 🚀 Casos de uso\n\n- Crear enlaces cortos para incluir en mensajes SMS o plantillas de WhatsApp.  \n- Monitorear la cantidad de clics que reciben tus enlaces.  \n- Optimizar la longitud del mensaje reduciendo el número de caracteres utilizados.  \n- Medir la efectividad de tus campañas o notificaciones transaccionales.  \n\n---\n\n## ⚙️ Requisitos generales\n\n- Todos los endpoints requieren autenticación mediante las credenciales de tu cuenta:\n  - `client` → Tu **Client ID**  \n  - `key` → Tu **API Key**  \n- La URL original debe ser válida y accesible públicamente.  \n- Los enlaces generados son únicos y permanentes, salvo que sean eliminados manualmente.  \n- Los dominios de los enlaces cortos pertenecen a Onurix y garantizan alta disponibilidad.  \n\n---\n\n## 💰 Política de costos\n\n- **Crear una URL corta no tiene costo**, siempre y cuando **no se marque como premium**.  \n- Si el enlace se marca como **premium**, se cobrará un costo de **20 créditos** que incluye hasta **3 meses de estadísticas detalladas** (clics, visitas, fechas y comportamiento del enlace).  \n- Pasado este periodo, podrás renovar las estadísticas premium por el mismo valor si deseas mantener el seguimiento extendido.  \n- Los enlaces estándar (no premium) conservan métricas básicas sin costo adicional.  \n\n---\n\n## 🧩 Endpoints disponibles\n\n| Endpoint | Descripción |\n|-----------|--------------|\n| **Create Short URL** | Genera un nuevo enlace corto a partir de una URL original. |\n| **Get Short URL Statistics** | Devuelve las estadísticas de uso (clics, visitas, fechas) de una URL corta. |\n\n---\n\n## ⚠️ Notas importantes\n\n- El uso del acortador **no consume créditos adicionales** por sí mismo; solo se cobran los créditos del envío del mensaje.  \n- Las métricas de clics se actualizan en tiempo real y pueden tardar algunos minutos en reflejarse completamente.  \n- Onurix valida automáticamente que la URL de origen no esté en listas bloqueadas ni contenga contenido inseguro.  \n- Las estadísticas incluyen: cantidad de clics, fecha de creación, última visita y URL original.  \n- Los enlaces pueden integrarse fácilmente en cualquier flujo de comunicación multicanal (SMS, llamadas o WhatsApp).  \n\n---\n\n## 📘 Ejemplo de flujo\n\n1. Genera una URL corta usando **Create Short URL**.  \n2. Inserta el enlace generado en tu mensaje o plantilla de WhatsApp.  \n3. Consulta las métricas con **Get Short URL Statistics** para medir la interacción de tus usuarios.  \n"
 		}
 	],
 	"event": [
@@ -1349,15 +1541,23 @@
 	"variable": [
 		{
 			"key": "phone",
-			"value": ""
+			"value": "",
+			"description": "Numero(s) de telefonos separados por comas. Ej “573150123456” ó “573150123456,573150012345”"
 		},
 		{
 			"key": "groups",
-			"value": ""
+			"value": "",
+			"description": "Optional: \tID de grupos separados por comas. Ej \"1,2,3\""
 		},
 		{
 			"key": "2fa-app-name",
-			"value": ""
+			"value": "",
+			"description": "Nombre de la app que va a ser usada para generar el codigo"
+		},
+		{
+			"key": "template-id",
+			"value": "",
+			"description": "Identificador de la plantilla suministrado por META, que se usara para crear el mensaje."
 		}
 	]
 }
