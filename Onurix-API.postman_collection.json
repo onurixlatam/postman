@@ -5,7 +5,7 @@
 		"description": "📅 **Fecha de creación:** 01/noviembre/2025\n\n📌 **Versión:** 0.1\n\n🔗 **Consulta la última versión aquí:** [Documentación de Onurix](https://docs.onurix.com/).\n\n---\n\nCon esta colección de métodos, podrás probar de manera fácil y rápida los distintos servicios que ofrece la plataforma de Onurix.com, incluyendo:\n\n✅ **Envío de notificaciones** mediante SMS\n\n✅ **Envío de notificaciones** mediante Llamadas\n\n✅ **Envío de notificaciones mediante WhatsApp**\n\n✅ **Gestión de cuenta**\n\n✅ **Gestión de grupos y contactos**\n\n✅ **Autenticación 2FA**\n\n✅ **Administración de URLs cortas**\n\n⚠ **Requisitos previos:**  \nPara utilizar esta colección, es necesario que:\n\n- La IP del servidor desde donde se ejecutará el script esté previamente autorizada.\n    \n- Se envíen en cada petición las credenciales obligatorias: **API Key** y **Client Code**.\n    \n\nEsta colección te permitirá integrar y probar los servicios de Onurix de manera eficiente y segura.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "16893831",
-		"_collection_link": "https://onurix.postman.co/workspace/Onurix~3745bb7d-b31b-4854-a359-99d96cd33bd7/collection/16893831-635155dd-2f14-4886-8540-f77f19c9d68f?action=share&source=collection_link&creator=16893831"
+		"_collection_link": "https://onurix.postman.co/workspace/3745bb7d-b31b-4854-a359-99d96cd33bd7/collection/16893831-635155dd-2f14-4886-8540-f77f19c9d68f?action=share&source=collection_link&creator=16893831"
 	},
 	"item": [
 		{
@@ -811,7 +811,7 @@
 			"description": "Esta sección contiene los **endpoints generales del API de Onurix** relacionados con la **gestión de cuenta, seguridad y verificación de mensajes o códigos 2FA**.  \n\nEstos métodos te permiten consultar tu saldo de créditos, bloquear números para evitar comunicaciones, validar códigos 2FA enviados por SMS o llamada, y verificar el estado actual de mensajes enviados a través de los diferentes canales de Onurix.\n\n---\n\n## 🚀 Casos de uso\n\n- **Consultar saldo de créditos:** Verifica el saldo disponible en tu cuenta Onurix antes de realizar envíos.  \n- **Bloquear números:** Restringe números específicos para evitar que reciban mensajes o llamadas desde tus integraciones.  \n- **Verificar códigos 2FA:** Comprueba si el usuario ingresó correctamente el código de autenticación enviado.  \n- **Revisar el estado de un mensaje:** Confirma si un SMS o llamada fue entregado, leído o rechazado.\n\n---\n\n## 📘 Endpoints disponibles\n\n1. **Get Balance** → Consulta el saldo actual de créditos de tu cuenta.  \n2. **Security – Block Number** → Bloquea un número telefónico para impedir futuras comunicaciones.  \n3. **Verify 2FA Code** → Verifica un código 2FA previamente enviado por SMS o llamada.  \n4. **Verify Message Status** → Consulta el estado actual de un mensaje o llamada enviados.\n\n---\n\n## ⚙️ Requisitos generales\n\n- Todos los endpoints requieren autenticación mediante tus credenciales de cuenta:  \n  - `client` → Tu **Client ID**.  \n  - `key` → Tu **API Key**.  \n- Las peticiones pueden realizarse con método **GET** o **POST**, según el tipo de operación.  \n- La URL base del servicio es:  \n  `https://www.onurix.com/api/v1`\n\n---\n\n## 🛠️ Recomendaciones de uso\n\n- Antes de realizar un envío, verifica tu saldo con **Get Balance** para evitar errores por falta de créditos.  \n- Utiliza **Block Number** para registrar números cuyos titulares **han solicitado no recibir más comunicaciones**, cumpliendo con las normas de **protección de datos personales (Habeas Data)**.    \n- El endpoint **Verify 2FA Code** debe usarse inmediatamente después de que el usuario ingrese su código, dentro del tiempo de vigencia definido.  \n\n---\n\n## ⚠️ Notas importantes\n \n- El bloqueo de números mediante **Security – Block Number** es inmediato y aplica a todos los canales (SMS, llamadas y WhatsApp).  \n- Los códigos 2FA tienen una **vigencia limitada** (configurable por aplicación). Si expira, el usuario deberá solicitar un nuevo código.  "
 		},
 		{
-			"name": "👥 Grupos y contactos",
+			"name": "👥 Gropos y contactos",
 			"item": [
 				{
 					"name": "Crear grupo",
@@ -895,6 +895,12 @@
 									"key": "key",
 									"value": "{{vault:onurix_key}}",
 									"description": "Key de la cuenta onurix"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Opciona: Número de página a retornar. Por defecto 1. Máximo 50 items por página.",
+									"disabled": true
 								}
 							]
 						},
@@ -975,7 +981,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/group/delete?client={{vault:onurix_client_id}}&key={{vault:onurix_key}}&id=123",
+							"raw": "https://www.onurix.com/api/v1/group/update?client={{vault:onurix_client_id}}&key={{vault:onurix_key}}&id=123",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -986,7 +992,7 @@
 								"api",
 								"v1",
 								"group",
-								"delete"
+								"update"
 							],
 							"query": [
 								{
@@ -1202,6 +1208,48 @@
 					"response": []
 				},
 				{
+					"name": "Listar contactos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.onurix.com/api/v1/contacts/list?client={{vault:onurix_client_id}}&key={{vault:onurix_key}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"onurix",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contacts",
+								"list"
+							],
+							"query": [
+								{
+									"key": "client",
+									"value": "{{vault:onurix_client_id}}",
+									"description": "El Id del cliente"
+								},
+								{
+									"key": "key",
+									"value": "{{vault:onurix_key}}",
+									"description": "Key de la cuenta Onurix"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Opciona: Número de página a retornar. Por defecto 1. Máximo 50 items por página.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Este endpoint permite consultar todos los contactos que posee el cliente, organizados por los grupos a los que pertenecen dentro de tu  \ncuenta Onurix.  \nEs ideal para obtener una visión general de todos tus contactos y cómo están distribuidos en tus diferentes grupos, facilitando la gestión y  \nsegmentación.\n\n---\n\n### 📘 Comportamiento general\n\n- Devuelve una lista de todos los contactos del cliente, agrupados por el id de cada grupo al que pertenecen.\n    \n- La información incluye datos como el nombre, apellido, correo electrónico y número de teléfono de cada contacto.\n    \n- Si un grupo no contiene contactos, su entrada en la respuesta puede estar vacía o no aparecer.\n    \n- Los contactos que no pertenecen a ningún grupo no serán incluidos en esta respuesta.\n    \n- Este endpoint solo muestra contactos activos.\n    \n- La respuesta es paginada, permitiendo obtener los resultados en bloques de hasta 50 ítems por página."
+					},
+					"response": []
+				},
+				{
 					"name": "Listar contactos del grupo",
 					"request": {
 						"method": "GET",
@@ -1232,10 +1280,16 @@
 									"key": "key",
 									"value": "{{vault:onurix_key}}",
 									"description": "Key de la cuenta Onurix"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Opciona: Número de página a retornar. Por defecto 1. Máximo 50 items por página.",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Este endpoint permite **consultar todos los contactos asociados a un grupo específico** dentro de tu cuenta Onurix.  \nEs ideal para obtener el detalle de los miembros de un grupo antes de ejecutar un envío masivo o para verificar la estructura de tus listas segmentadas.\n\n---\n\n### 📘 Comportamiento general\n\n- Devuelve la lista completa de contactos pertenecientes al grupo indicado mediante su identificador (`group_id`).  \n- La información incluye datos como el nombre, apellido, correo electrónico y número de teléfono de cada contacto.  \n- Si el grupo no contiene contactos, se devuelve una lista vacía.  \n- Si el `group_id` no corresponde a un grupo válido o no existe, el sistema devolverá un error.  \n- Este endpoint solo muestra contactos **activos** dentro del grupo.  "
+						"description": "Este endpoint permite **consultar todos los contactos asociados a un grupo específico** dentro de tu cuenta Onurix.  \nEs ideal para obtener el detalle de los miembros de un grupo antes de ejecutar un envío masivo o para verificar la estructura de tus listas segmentadas.\n\n---\n\n### 📘 Comportamiento general\n\n- Devuelve la lista completa de contactos pertenecientes al grupo indicado mediante su identificador (`group_id`).\n    \n- La información incluye datos como el nombre, apellido, correo electrónico y número de teléfono de cada contacto.\n    \n- Si el grupo no contiene contactos, se devuelve una lista vacía.\n    \n- Si el `group_id` no corresponde a un grupo válido o no existe, el sistema devolverá un error.\n    \n- Este endpoint solo muestra contactos **activos** dentro del grupo."
 					},
 					"response": []
 				},
@@ -1350,7 +1404,7 @@
 								}
 							]
 						},
-						"description": "Este endpoint permite **desasociar (eliminar) un contacto de un grupo existente** dentro de tu cuenta Onurix.  \nSe utiliza para mantener tus grupos actualizados, retirando contactos que ya no deben recibir notificaciones dentro de una campaña o segmento específico.\n\nLa operación no elimina el contacto de la cuenta; simplemente **remueve la relación entre el contacto y el grupo**, manteniendo ambos registros activos.\n\n---\n\n### 📘 Comportamiento general\n\n- El contacto y el grupo deben existir previamente en tu cuenta.  \n- La disociación se realiza utilizando los identificadores (`id` y `group-id`).  \n- Si el contacto no pertenece al grupo, el sistema devolverá una respuesta de error informativa.  \n- La desvinculación es inmediata y se refleja tanto en la API como en el portal web de Onurix.  \n- Esta acción no consume créditos ni afecta otros grupos a los que el contacto esté asociado.  \n"
+						"description": "Este endpoint permite **desasociar (eliminar) un contacto de un grupo existente** dentro de tu cuenta Onurix.  \nSe utiliza para mantener tus grupos actualizados, retirando contactos que ya no deben recibir notificaciones dentro de una campaña o segmento específico.\n\nLa operación no elimina el contacto de la cuenta; simplemente **remueve la relación entre el contacto y el grupo**, manteniendo ambos registros activos.\n\n---\n\n### 📘 Comportamiento general\n\n- El contacto y el grupo deben existir previamente en tu cuenta.\n    \n- La disociación se realiza utilizando los identificadores (`id` y `group-id`).\n    \n- Si el contacto no pertenece al grupo, el sistema devolverá una respuesta de error informativa.\n    \n- La desvinculación es inmediata y se refleja tanto en la API como en el portal web de Onurix.\n    \n- Esta acción no consume créditos ni afecta otros grupos a los que el contacto esté asociado."
 					},
 					"response": []
 				}
