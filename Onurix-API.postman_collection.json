@@ -1,11 +1,11 @@
 {
 	"info": {
-		"_postman_id": "635155dd-2f14-4886-8540-f77f19c9d68f",
-		"name": "Onurix API - V1.0",
-		"description": "📅 **Fecha de creación:** 01/noviembre/2025\n\n📌 **Versión:** 0.1\n\n🔗 **Consulta la última versión aquí:** [Documentación de Onurix](https://docs.onurix.com/).\n\n---\n\nCon esta colección de métodos, podrás probar de manera fácil y rápida los distintos servicios que ofrece la plataforma de Onurix.com, incluyendo:\n\n✅ **Envío de notificaciones** mediante SMS\n\n✅ **Envío de notificaciones** mediante Llamadas\n\n✅ **Envío de notificaciones mediante WhatsApp**\n\n✅ **Gestión de cuenta**\n\n✅ **Gestión de grupos y contactos**\n\n✅ **Autenticación 2FA**\n\n✅ **Administración de URLs cortas**\n\n⚠ **Requisitos previos:**  \nPara utilizar esta colección, es necesario que:\n\n- La IP del servidor desde donde se ejecutará el script esté previamente autorizada.\n    \n- Se envíen en cada petición las credenciales obligatorias: **API Key** y **Client Code**.\n    \n\nEsta colección te permitirá integrar y probar los servicios de Onurix de manera eficiente y segura.",
+		"_postman_id": "e9b36242-4d88-4c04-8046-de3e2adedc69",
+		"name": "Onurix API - V0.1.2",
+		"description": "📅 **Fecha de creación:** 18/diciembre/2025\n\n📌 **Versión:** 0.1.2\n\n🔗 **Consulta la última versión aquí:** [Documentación de Onurix](https://docs.onurix.com/).\n\n---\n\nCon esta colección de métodos, podrás probar de manera fácil y rápida los distintos servicios que ofrece la plataforma de Onurix.com, incluyendo:\n\n✅ **Envío de notificaciones** mediante SMS\n\n✅ **Envío de notificaciones** mediante Llamadas\n\n✅ **Envío de notificaciones mediante WhatsApp**\n\n✅ **Gestión de cuenta**\n\n✅ **Gestión de grupos y contactos**\n\n✅ **Autenticación 2FA**\n\n✅ **Administración de URLs cortas**\n\n⚠ **Requisitos previos:**  \nPara utilizar esta colección, es necesario que:\n\n- La IP del servidor desde donde se ejecutará el script esté previamente autorizada.\n    \n- Se envíen en cada petición las credenciales obligatorias: **API Key** y **Client Code**.\n    \n\nEsta colección te permitirá integrar y probar los servicios de Onurix de manera eficiente y segura.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "16893831",
-		"_collection_link": "https://onurix.postman.co/workspace/3745bb7d-b31b-4854-a359-99d96cd33bd7/collection/16893831-635155dd-2f14-4886-8540-f77f19c9d68f?action=share&source=collection_link&creator=16893831"
+		"_collection_link": "https://onurix.postman.co/workspace/3745bb7d-b31b-4854-a359-99d96cd33bd7/collection/16893831-e9b36242-4d88-4c04-8046-de3e2adedc69?action=share&source=collection_link&creator=16893831"
 	},
 	"item": [
 		{
@@ -318,7 +318,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template_id={{template_id}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -343,9 +343,15 @@
 									"description": "Key de la cuenta onurix"
 								},
 								{
-									"key": "template",
-									"value": "{{template-id}}",
+									"key": "template_id",
+									"value": "{{template_id}}",
 									"description": "Identificador de la plantilla suministrado por META, que se usara para crear el mensaje."
+								},
+								{
+									"key": "phone_sender_id",
+									"value": "{{phone_sender_id}}",
+									"description": "Identificador del número telefónico registrado en Meta que se utilizará para el envío del mensaje.",
+									"disabled": true
 								}
 							]
 						},
@@ -368,7 +374,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template_id={{template_id}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -393,9 +399,15 @@
 									"description": "Key de la cuenta onurix"
 								},
 								{
-									"key": "template",
-									"value": "{{template-id}}",
+									"key": "template_id",
+									"value": "{{template_id}}",
 									"description": "Nombre de la plantilla que se usara para crear el mensaje"
+								},
+								{
+									"key": "phone_sender_id",
+									"value": "{{phone_sender_id}}",
+									"description": "Identificador del número telefónico registrado en Meta que se utilizará para el envío del mensaje.",
+									"disabled": true
 								}
 							]
 						},
@@ -418,7 +430,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template_id={{template_id}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -443,9 +455,15 @@
 									"description": "Key de la cuenta onurix"
 								},
 								{
-									"key": "template",
-									"value": "{{template-id}}",
+									"key": "template_id",
+									"value": "{{template_id}}",
 									"description": "Nombre de la plantilla que se usara para crear el mensaje"
+								},
+								{
+									"key": "phone_sender_id",
+									"value": "{{phone_sender_id}}",
+									"description": "Identificador del número telefónico registrado en Meta que se utilizará para el envío del mensaje.",
+									"disabled": true
 								}
 							]
 						},
@@ -468,7 +486,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template_id={{template_id}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -493,9 +511,15 @@
 									"description": "Key de la cuenta onurix"
 								},
 								{
-									"key": "template",
-									"value": "{{template-id}}",
+									"key": "template_id",
+									"value": "{{template_id}}",
 									"description": "Nombre de la plantilla que se usara para crear el mensaje"
+								},
+								{
+									"key": "phone_sender_id",
+									"value": "{{phone_sender_id}}",
+									"description": "Identificador del número telefónico registrado en Meta que se utilizará para el envío del mensaje.",
+									"disabled": true
 								}
 							]
 						},
@@ -518,7 +542,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template={{template-id}}",
+							"raw": "https://www.onurix.com/api/v1/whatsapp/send?key={{vault:onurix_key}}&client={{vault:onurix_client_id}}&template_id={{template_id}}",
 							"protocol": "https",
 							"host": [
 								"www",
@@ -543,9 +567,15 @@
 									"description": "Key de la cuenta onurix"
 								},
 								{
-									"key": "template",
-									"value": "{{template-id}}",
+									"key": "template_id",
+									"value": "{{template_id}}",
 									"description": "Nombre de la plantilla que se usara para crear el mensaje"
+								},
+								{
+									"key": "phone_sender_id",
+									"value": "{{phone_sender_id}}",
+									"description": "Identificador del número telefónico registrado en Meta que se utilizará para el envío del mensaje.",
+									"disabled": true
 								}
 							]
 						},
@@ -592,6 +622,12 @@
 									"key": "client",
 									"value": "{{vault:onurix_client_id}}",
 									"description": "Key de la cuenta onurix"
+								},
+								{
+									"key": "phone_sender_id",
+									"value": "{{phone_sender_id}}",
+									"description": "Identificador del número telefónico registrado en Meta que se utilizará para el envío del mensaje.",
+									"disabled": true
 								}
 							]
 						}
@@ -1618,9 +1654,14 @@
 			"description": "Nombre de la app que va a ser usada para generar el codigo"
 		},
 		{
-			"key": "template-id",
+			"key": "template_id",
 			"value": "",
 			"description": "Identificador de la plantilla suministrado por META, que se usara para crear el mensaje."
+		},
+		{
+			"key": "phone_sender_id",
+			"value": "",
+			"description": "Identificador del número telefónico registrado en Meta que se utilizará para el envío del mensaje."
 		}
 	]
 }
