@@ -31,7 +31,7 @@
             "auth": {
               "type": "noauth"
             },
-            "description": "## 📤 Send SMS\n\nPermite enviar un **mensaje de texto (SMS)** a uno o varios números de teléfono móvil.\n\nEste método es ideal para **notificaciones, alertas, recordatorios o mensajes promocionales**.  \nEl envío se realiza de forma inmediata y la entrega depende de la cobertura del operador del destinatario.",
+            "description": "## 📤 Send SMS\n\nPermite enviar un **mensaje de texto (SMS)** a uno o varios números de teléfono móvil.\n\nEste método es ideal para **notificaciones, alertas, recordatorios o mensajes promocionales**.  \nEl envío se realiza de forma inmediata y la entrega depende de la cobertura del operador del destinatario.\n\n**is-transactional** (opcional): `1` (por defecto) para mensajes transaccionales; `0` para mensajes comerciales (publicidad, promociones). Con `0`, los números inscritos en el Registro de Números Excluidos (RNE) que no aceptan SMS se rechazan con el error `1010`.",
             "url": {
               "raw": "https://www.onurix.com/api/v1/sms/send",
               "protocol": "https",
@@ -86,6 +86,13 @@
                   "disabled": true,
                   "type": "default",
                   "description": "Optional: ID de grupos separados por comas. Ej \"1,2,3\""
+                },
+                {
+                  "key": "is-transactional",
+                  "value": "1",
+                  "disabled": true,
+                  "type": "default",
+                  "description": "Optional: 1 (por defecto) mensaje transaccional; 0 mensaje comercial (publicidad, promociones). Con 0, los numeros inscritos en el Registro de Numeros Excluidos (RNE) que no aceptan SMS se rechazan con el error 1010."
                 }
               ]
             }
